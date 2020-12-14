@@ -42,8 +42,10 @@
 </td>
 </tr>
 <tr>
-<th id='borderA' width="100px" align="center">#</th>
-			<th id='borderA' width="100px" align="center">品項</th>
+            <th id='borderA' width="50px" align="center"></th>
+			<th id='borderA' width="100px" align="center">課程名稱</th>
+			<th id='borderA' width="100px" align="center">開課日期</th>
+			<th id='borderA' width="100px" align="center">開課時間</th>
 			<th id='borderA' width="70px" align="center">單價</th>
 			<th id='borderA' width="50px" align="center">數量</th>
 			<th id='borderA' width="100px" align="center">總價</th>
@@ -51,14 +53,16 @@
 		<c:set var="subtotal" value="0" />
 		<c:forEach var="olone" varStatus="stat" items="${cooo.courseOrderItems}"> 
 		<!-- 因為有兩層所以要選到courseOrderItems層
-		cooo.courseOrderItems 在CourseCartController #130 + CourseOrders #46 -->
+		cooo.courseOrderItems 在CourseOrderController #130 + CourseOrders #46 -->
 			<tr id='borderA' bgColor="FFFFFF" height='30'>
 				<td id='borderA' align="center">${stat.count}</td>
 				<td id='borderA' align="center">${olone.courseTitle}</td>
+<%-- 				<a href='<c:url value='/18/coOrderListOne.ctrl?coId=${olone.coId}' />'>${orderListCo.courseTitle}</a></td> --%>
+				<td id='borderA' align="center">${olone.courseAct_Date}</td>
+				<td id='borderA' align="center">${olone.courseAct_Time}</td>
 				<td id='borderA' align="center">${olone.coursePrice}</td>
 				<td id='borderA' align="center">${olone.courseNum}</td>
 				<td id='borderA' align="center">${olone.coursePrice * olone.courseNum}</td>
-				
 				
 				<c:set var="total"
 					value="${ total + olone.coursePrice * olone.courseNum }" />

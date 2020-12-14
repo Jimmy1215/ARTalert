@@ -17,7 +17,7 @@ import tw.group4.util.Hibernate;
 public class DeleteReservationFront {
 
 	@Autowired
-	private ShopReservationService srs;
+	public ShopReservationService srs;
 	
 	@Hibernate
 	@RequestMapping(path = "/03/front/reservation/deleteReservationByNo.ctrl", method = RequestMethod.POST)

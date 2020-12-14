@@ -78,7 +78,8 @@ Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
 
 
 
-		<form name="order" action="<c:url value='/04/booking.ctrl'/>" method="get">
+		<form name="order" action="<c:url value='/04/seatmap'/>" method="get">
+<%-- 		<form name="order" action="<c:url value='/04/booking.ctrl'/>" method="get"> --%>
 
 		<!-- 用param.取，相當於request.getParameter-->
 		<c:set var="actid" value="${actid}" scope="session"/>

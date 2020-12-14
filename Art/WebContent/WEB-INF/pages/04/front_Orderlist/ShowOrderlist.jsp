@@ -69,11 +69,17 @@
 					<td>${orderlist.TICKET_NUM}</td>
 					<td>${orderlist.TOTALPRICE}</td>
 					<td>已付款</td>
+<!-- 					<td> -->
+<!-- 						<form name="order" -->
+<%-- 							action="<c:url value='/04/DeleteOrderlist.ctrl'/> " method="get"> --%>
+<%-- 							<button type="submit" name="orderid" value="${orderlist.ORDERID}" --%>
+<!-- 								class="genric-btn success-border radius" onclick="return del()">取消訂單</button> -->
+<!-- 						</form> -->
+<!-- 					</td> -->
 					<td>
 						<form name="order"
-							action="<c:url value='/04/DeleteOrderlist.ctrl'/> " method="get">
-							<button type="submit" name="orderid" value="${orderlist.ORDERID}"
-								class="genric-btn success-border radius" onclick="return del()">取消訂單</button>
+							action="<c:url value='/04/WriteIssueForm'/> " method="get">
+							<button type="submit" name="issueId" value="${orderlist.ORDERID}"class="genric-btn success-border radius" onclick="return del()">申請退票</button>
 						</form>
 					</td>
 
@@ -102,7 +108,7 @@
 
 	<script>
 		function del() {
-			var msg = "是否取消?";
+			var msg = "確定申請退票?";
 			if (confirm(msg) == true) {
 				return true;
 			} else {

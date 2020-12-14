@@ -209,7 +209,7 @@ document.querySelector('#order').onclick = function(){
 			  if (orderOK) {
 			    swal("訂單已成立!", 
 			    	{icon: "success",});
-		    	setTimeout(function(){window.location="<c:url value='/04/SaveCart.ctrl'/>" ; },2000);
+		    	setTimeout(function(){window.location="<c:url value='/04/SaveCart.ctrl'/>" ; },1000);
 			  } else {
 			    swal("訂單已取消!");
 			  }
@@ -217,20 +217,6 @@ document.querySelector('#order').onclick = function(){
 };
 
 
-// .then((value) => {
-//     switch (value) {
-//       case "danger":
-//     	swal("提示","商品已刪除", "success")
-//     	setTimeout(function(){window.location="<c:url value='/14/deleteProduct.ctrl?productId="+pid+"'/>" ; },2000);
-//         break;
-//       case "不是":
-//         swal("提示","商品未刪除", "info");
-//         break;
-//       default:
-//     	  swal("提示","商品未刪除", "info");
-//         break;
-//     }
-//   });
 
     
 

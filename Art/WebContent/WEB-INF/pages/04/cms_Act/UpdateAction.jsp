@@ -11,6 +11,9 @@ p{
 /*  自動換行  */
 white-space:pre-wrap;
 }
+#demo{
+width: 400px;
+}
 </style>
 </head>
 
@@ -116,17 +119,19 @@ white-space:pre-wrap;
 					</td>
 				</tr>
 				<tr>
-					<td>圖片</td>
-					<td><img style='display:block;width:400px;' src="data:image/jpg;base64,${photo}" >
+					<td>圖片預覽</td>
+					<td><img id="demo" style='display:block;width:400px;' src="data:image/jpg;base64,${photo}" >
 					
 					</td>
 				</tr>
 				<tr>
 					<td>圖片上傳</td>
-					<td><Input Type="File" Name="file" >
-					
-					</td>
+					<td><Input Type="File" Name="file" id="file"></td>
 				</tr>
+<!-- 				<tr> -->
+<!-- 					<td>圖片預覽</td> -->
+<!-- 					<td><img id="demo" /></td> -->
+<!-- 				</tr> -->
 				
 			</table>
 
@@ -152,6 +157,16 @@ white-space:pre-wrap;
 		    var input = document.getElementById("enddate");
 		    input.setAttribute("min", this.value);
 		}
+		
+		//圖片預覽
+		$('#file').change(function() {
+			  var file = $('#file')[0].files[0];
+			  var reader = new FileReader;
+			  reader.onload = function(e) {
+			    $('#demo').attr('src', e.target.result);
+			  };
+			  reader.readAsDataURL(file);
+			});
 	</script>
 </body>
 </html>

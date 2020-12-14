@@ -25,19 +25,22 @@ public class CourseControllerF {
 	@Autowired
 	private CourseBeanServiceMainFront cBeanServiceF;
 	
+	
+	//放入購物車
 	@Hibernate
 	@RequestMapping(path = "/18/CoSubmit.ctrl", method = RequestMethod.GET)
 	public String CoSubmit(Model m, HttpSession session, HttpServletRequest request,
 			@RequestParam(name = "cartSize", required = false) Integer cartSize,
 			@RequestParam(name = "query", required = false) String query,
 			@RequestParam(name = "pageNo", required = false) Integer pageNo, @RequestParam(name = "coId") String coId,
-			@RequestParam(name = "ordertitle") String orderTitle, @RequestParam(name = "orderNum") int orderNum,
-			@RequestParam(name = "orderPrice") int orderPrice
+			@RequestParam(name = "orderTitle") String orderTitle, @RequestParam(name = "orderNum") int orderNum,
+			@RequestParam(name = "orderPrice") int orderPrice, @RequestParam(name = "orderAct_Date") String orderAct_Date,
+			@RequestParam(name = "orderAct_Time") String orderAct_Time
 		 //	@RequestParam(name = "coAct_ImageStr") String coAct_ImageStr
 			) {
 
 		
-		CourseCartCo ccc = (CourseCartCo) session.getAttribute("ccc");
+		CourseCartCo ccc = (CourseCartCo) session.getAttribute("ccc"); //*
 
 		if (ccc == null) {
 			ccc = new CourseCartCo();
@@ -53,6 +56,8 @@ public class CourseControllerF {
 		co.setCoTitle(orderTitle);
 		co.setCoNum(orderNum);
 		co.setCoPrice(orderPrice);
+		co.setCoAct_Date(orderAct_Date);
+		co.setCoAct_Time(orderAct_Time);
 		co.setCoAct_ImageStr(cos.getCoAct_ImageStr());
 
 		synchronized (this) { // synchronized鎖定，對象鎖，只能依序訪問；若不同則可同時訪問
@@ -62,7 +67,7 @@ public class CourseControllerF {
 		}
 
 		// Map<K, V>
-		Map<String, CourseFront> cartco = ccc.getCartCo();
+		Map<String, CourseFront> cartco = ccc.getCartCo();  //*
 		Set set = cartco.keySet(); // 獲取Map集合中所有鍵存到set集合，之後透過Iterator取出
 		for (Iterator iterator = set.iterator(); iterator.hasNext();) {
 			String ke = (String) iterator.next();
@@ -77,9 +82,11 @@ public class CourseControllerF {
 
 		System.out.println("---cartco.size()---" + cartco.size());
 
-		return "redirect:/18/cSelectAllFront.ctrl";
+		return "18/buyerCo/18_Order";  // jsp
 	}
 	
+	
+	//前往填寫訂單
 	@Hibernate
 	@RequestMapping(path = "/18/toCoCart.ctrl") // 網址
 	public String toCoCart(HttpSession session) {

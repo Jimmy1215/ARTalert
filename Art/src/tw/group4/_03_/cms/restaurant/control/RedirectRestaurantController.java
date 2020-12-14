@@ -19,7 +19,7 @@ import tw.group4.util.Hibernate;
 public class RedirectRestaurantController {
 
 	@Autowired
-	private RestaurantService rs;
+	public RestaurantService rs;
 
 	@RequestMapping(path = "/03/cms/restaurant/restaurantManagement", method = RequestMethod.GET)
 	public String restaurantManagement(Model m) {
@@ -28,9 +28,11 @@ public class RedirectRestaurantController {
 	
 	@Hibernate
 	@PostMapping(value = "/03/cms/restaurant/searchByYearMonth.ctrl", produces = { "application/json; charset=UTF-8" })
-	public @ResponseBody List<RestaurantBean> searchByYearMonth(@RequestParam(name = "year") String year,
+	public @ResponseBody List<RestaurantBean> searchByYearMonth(
+			@RequestParam(name = "year") String year,
 			@RequestParam(name = "month") String month) {
 
+		System.out.println(year+"/"+month);
 		List<RestaurantBean> restaurantList = rs.selectByYearMonth(Integer.parseInt(year), Integer.parseInt(month));
 		return restaurantList;
 	}

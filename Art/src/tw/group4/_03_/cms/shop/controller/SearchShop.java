@@ -17,7 +17,7 @@ import tw.group4.util.Hibernate;
 public class SearchShop {
 
 	@Autowired
-	private CreativeShopService css;
+	public CreativeShopService css;
 	
 	@Hibernate
 	@RequestMapping(path = "/03/cms/shop/searchShopByShopName.ctrl", method = RequestMethod.POST)

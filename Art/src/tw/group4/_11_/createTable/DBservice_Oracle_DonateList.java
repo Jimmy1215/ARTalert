@@ -20,7 +20,7 @@ public class DBservice_Oracle_DonateList {
 			+ " NAME_SA					varchar2(50), "
 			+ " NAME_USER				varchar2(50), "
 			+ " DONATE_SA				number,"
-			+ " TIME					date"
+			+ " TIME					varchar2(50)"
 			+ " ) ";
 
 

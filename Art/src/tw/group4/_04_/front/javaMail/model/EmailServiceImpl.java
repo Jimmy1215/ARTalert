@@ -1,19 +1,31 @@
 package tw.group4._04_.front.javaMail.model;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletContext;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import com.google.zxing.NotFoundException;
+import com.google.zxing.WriterException;
+
+import tw.group4._04_.front.qrcode.QRCodeToolTest;
 import tw.group4._04_.front.shopcart.model.Shoppingcart;
 
 @Service
@@ -21,10 +33,12 @@ public class EmailServiceImpl {
 
 	// 注入JavaMailSender
 	@Autowired
-	private JavaMailSender emailSender;
+	public JavaMailSender emailSender;
 	@Autowired
 	private EmailServiceImpl emailServiceImpl;
-
+	@Autowired
+	ServletContext ctx;
+	
 	// 簡單mail寄送
 	public void sendSimpleMessage(String to, String subject, String text) {
 		SimpleMailMessage message = new SimpleMailMessage();
@@ -56,6 +70,27 @@ public class EmailServiceImpl {
 		emailSender.send(message);
 
 	}
+	
+	// 含附件mail寄送
+//		public void sendMessageWithAttachment(String to, String subject, String text)
+		public void sendMessageWithAttachmentTEST(String to, String subject, String text, String pathToAttachment)
+				throws MessagingException {
+			MimeMessage message = emailSender.createMimeMessage();
+
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+			helper.setFrom("noreply@baeldung.com");
+			helper.setTo(to);
+			helper.setSubject(subject);
+			helper.setText(text, true);
+			
+			FileSystemResource file = new FileSystemResource(new File(pathToAttachment));
+			
+			helper.addAttachment("電子票券.jpg", file);
+
+			emailSender.send(message);
+
+		}
 
 	public  void processmailsendAttituate(Shoppingcart shoppingcart) throws MessagingException {
 		
@@ -80,9 +115,13 @@ public class EmailServiceImpl {
 		System.out.println("mail已寄送");
 	}
 	
-	public  void processmailsendHTML(Shoppingcart shoppingcart) throws MessagingException {
+	public  void processmailsendHTML(Shoppingcart shoppingcart) throws MessagingException, IOException, NotFoundException, WriterException {
 		String detail="http://localhost:8080/Art/04/SearchOrder.ctrl";
 		//寄訂單詳細mail
+		
+//		QRCodeToolTest qrcodetool =new QRCodeToolTest();
+//		qrcodetool.QRCode(shoppingcart);
+		
 		String to =  shoppingcart.getEMAIL();
 		String subject = "訂單編號"+shoppingcart.getORDERID()+"購物詳細";
 		String text = 
@@ -359,8 +398,12 @@ public class EmailServiceImpl {
 		
 			
 				
-		String pathToAttachment = "./QRcodeOutput/QRCode.png";	
-		emailServiceImpl.sendMessageWithAttachment(to, subject, text);
+//		String pathToAttachment = "/images/04/QRcodeOutput/"+shoppingcart.getORDERID()+".png";	
+//		String pathToAttachment = "C:\\iii\\HibernateWorkspace\\Art-AOP\\QRcodeOutput\\"+shoppingcart.getORDERID()+".png";	
+		String pathToAttachment = ctx.getRealPath("/WEB-INF/pages/images/04/QRcodeOutput/"+shoppingcart.getORDERID()+".png");
+		sendMessageWithAttachmentTEST(to, subject, text, pathToAttachment);
 		System.out.println("mail已寄送");
 	}
+	
+	
 }

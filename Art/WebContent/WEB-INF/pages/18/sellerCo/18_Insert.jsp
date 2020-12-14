@@ -5,22 +5,18 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <!-- https://code.jquery.com/       jQuery Core 3.5.1 - uncompressed -->
 
-<div>請輸入欲新增的課程資訊</div>
-<form action="<c:url value="/18/cInsert.ctrl"/>" method="POST"
+<div class="container">
+<h2 style="text-align:center; color:blue; font-weight:bold">請輸入欲新增的課程資訊</h2>
+<div><form action="<c:url value="/18/cInsert.ctrl"/>" method="POST"
 	enctype="multipart/form-data">
-	<div class="form-row" style="text-align: center;">
-
-
-		<div class="form-group">
-			<label>課程名稱</label> <input type="text" class="form-control"
-				name="coTitle" id='coTitle' value="">
-		</div>
-
-		<div class="form-group">
-			<label>課程類型</label>
-			<p>
-				<select name="coAct_Type" id='coAct_Type'>
-					<option value="" disabled>請選擇課程類型</option>
+	
+<table>
+<tbody>
+<tr><td style="padding-top:20px;">課程名稱：<input type="text" class="form-control"
+				name="coTitle" id='coTitle' value=""></td></tr>
+<tr><td style="padding-top:20px;">課程類型：
+<select name="coAct_Type" id='coAct_Type'>
+					<option value="" selected disabled>請選擇課程類型</option>
 					<option value="語文">語文</option>
 					<option value="園藝">園藝</option>
 					<option value="風俗信仰">風俗信仰</option>
@@ -29,84 +25,37 @@
 					<option value="運動">運動</option>
 					<option value="藝術鑑賞">藝術鑑賞</option>
 					<option value="美術">美術</option>
-					<option value="戲劇">戲劇</option>
-				</select>
-			</p>
-		</div>
-
-		<div class="form-group">
-
-			<label>上課地址</label> <input type="text" class="form-control"
-				name="coAct_Location" id='coAct_Location' value="">
-		</div>
-
-		<div class="form-group">
-			<label>場地名稱</label> <input type="text" class="form-control"
-				name="coLocation_Name" id='coLocation_Name' value="">
-		</div>
-		
-		<div class="form-group">
-			<label>名額</label> <input type="number" class="form-control"
-				name="coNum" id="coNum" value="">
-		</div>
-		
-		<div class="form-group">
-			<label>售價</label> <input type="number" class="form-control"
-				name="coPrice" id='coPrice' value="">
-		</div>
-
-		<div class="form-group">
-			<label>開始日期</label> <input type="date" class="form-control"
-				name="coAct_Date" id='coAct_Date' value="">
-		</div>
-
-		<div class="form-group">
-			<label>開始時間</label> <input type="time" class="form-control"
-				name="coAct_Time" id='coAct_Time' value="">
-		</div>
-
-		<div class="form-group">
-			<label>結束日期</label> <input type="date" class="form-control"
-				name="coEnd_Date" id='coEnd_Date' value="">
-		</div>
-
-		<div class="form-group">
-			<label>結束時間</label> <input type="time" class="form-control"
-				name="coEnd_Time" id='coEnd_Time' value="">
-		</div>
-
-		<div class="form-group">
-			<label>簡介說明</label>
-			<textarea name="coAct_Description" id="coAct_Description" rows="4" cols="50"></textarea>		
-		</div>
-		
-		<div class="form-group">
-			<label>點擊次數</label> <input type="number" class="form-control"
-				name="coHot" id="coHot" value="">
-		</div>
-
-		<div class="form-group">
-			<label>課程圖片</label> <input type="file" accept="image/*"
+					<option value="戲劇">戲劇</option></select>
+<tr><td style="padding-top:20px;">上課地址：<input type="text" class="form-control"
+				name="coAct_Location" id='coAct_Location' value=""></td></tr>
+<tr><td style="padding-top:20px;">場地名稱：<input type="text" class="form-control"
+				name="coLocation_Name" id='coLocation_Name' value=""></td></tr>
+<tr><td style="padding-top:20px;">名額：<input type="number" class="form-control"
+				name="coNum" id="coNum" value=""></td></tr>
+<tr><td style="padding-top:20px;">售價：<input type="number" class="form-control"
+				name="coPrice" id='coPrice' value=""></td></tr>
+<tr><td style="padding-top:20px;">開始日期：<input type="date" class="form-control"
+				name="coAct_Date" id='coAct_Date' value=""></td></tr>
+<tr><td style="padding-top:20px;">開始時間：<input type="time" class="form-control"
+				name="coAct_Time" id='coAct_Time' value=""></td></tr>
+<tr><td style="padding-top:20px;">結束日期：<input type="date" class="form-control"
+				name="coEnd_Date" id='coEnd_Date' value=""></td></tr>
+<tr><td style="padding-top:20px;">結束時間：<input type="time" class="form-control"
+				name="coEnd_Time" id='coEnd_Time' value=""></td></tr>
+<tr><td style="padding-top:20px;">簡介說明：<textarea name="coAct_Description" id="coAct_Description" rows="4" cols="50"></textarea></td></tr>
+<!-- <tr><td style="padding-top:20px;">點擊次數(預設為0)：<input type="number" class="form-control" -->
+<!-- 				name="coHot" id="coHot" value="0" disabled></td></tr> -->
+<tr><td style="padding-top:20px;">課程圖片(預覽)：<input type="file" accept="image/*"
 				onchange="loadFile(event)" class="form-control" name="coAct_Image">
-			<img id="output" />
-			<script>
-				var loadFile = function(event) {
-					var output = document.getElementById('output');
-					output.src = URL.createObjectURL(event.target.files[0]);
-					output.onload = function() {
-						URL.revokeObjectURL(output.src)
-					}
-				};
-			</script>
-		</div>
-
-	</div>
-
+			<img id="coAct_ImageIs" style="width : 720px; height: 480px;"/></td></tr>
+</tbody>
+</table>		
 	<button type="submit" class="btn btn-primary">送出</button>
-</form>
+</form></div>
 
 <!-- id需與下方script相同 -->
    <button id="OneBuyer" >一鍵輸入課程資訊</button>
+</div>
 
 <script>
 <!-- $("最上方的id:識別名稱") -->
@@ -122,6 +71,15 @@ $("#OneBuyer").click(function(){
 	$("#coEnd_Date").val("2021-06-01");
 	$("#coEnd_Time").val("12:00");
 	$("#coAct_Description").val("山石變化多端，取勢聚合，穿插、用筆、用墨皆表現不同之精神與趣味。山石靜態，因有浮雲流水方顯生命，雲水型態因自然條件不同各有所異，勾、染、留白…各種技法交互運用。");
-	$("#coHot").val("0");
+// 	$("#coHot").val("0");
 })
+
+
+var loadFile = function(event) {
+					var coAct_ImageIs = document.getElementById('coAct_ImageIs');
+					coAct_ImageIs.src = URL.createObjectURL(event.target.files[0]);
+					coAct_ImageIs.onload = function() {
+						URL.revokeObjectURL(coAct_ImageIs.src)
+					}
+				};
 </script>

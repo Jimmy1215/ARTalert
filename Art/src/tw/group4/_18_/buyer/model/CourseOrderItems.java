@@ -1,6 +1,8 @@
 package tw.group4._18_.buyer.model;
 
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +13,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 @Entity
-public class CourseOrderItems {
+public class CourseOrderItems implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id @Column(name = "ORDERIDCO")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int orderIdCo;
@@ -29,6 +36,12 @@ public class CourseOrderItems {
 	@Column(name = "COURSEPRICECO")
 	private int coursePrice;
 	
+	@Column(name = "COURSEACT_DATECO")
+	private String courseAct_Date;
+	
+	@Column(name = "COURSEACT_TIMECO")
+	private String courseAct_Time;
+	
 	@ManyToOne
 	@JoinColumn(name = "ORDERNOCO")
 	private CourseOrders courseOrders;
@@ -39,15 +52,17 @@ public class CourseOrderItems {
 	}
 
 
-	public CourseOrderItems(String courseTitle, int courseNum, int coursePrice) {
+	public CourseOrderItems(String courseTitle, int courseNum, int coursePrice, String courseAct_Date, String courseAct_Time) {
 		super();
 		this.courseTitle = courseTitle;
 		this.courseNum = courseNum;
 		this.coursePrice = coursePrice;
+		this.courseAct_Date = courseAct_Date;
+		this.courseAct_Time = courseAct_Time;
 	}
 	
-	public CourseOrderItems(int orderIdCo, int orderNoCo, String courseTitle, int courseNum, int coursePrice,
-			CourseOrders courseOrders) {
+	public CourseOrderItems(int orderIdCo, int orderNoCo, String courseTitle, int courseNum, int coursePrice, 
+			String courseAct_Date, String courseAct_Time, CourseOrders courseOrders) {
 		
 		this.orderIdCo = orderIdCo;
 		this.orderNoCo = orderNoCo;
@@ -55,6 +70,8 @@ public class CourseOrderItems {
 		this.courseNum = courseNum;
 		this.coursePrice = coursePrice;
 		this.courseOrders = courseOrders;
+		this.courseAct_Date = courseAct_Date;
+		this.courseAct_Time = courseAct_Time;
 	}
 
 
@@ -108,6 +125,24 @@ public class CourseOrderItems {
 		this.coursePrice = coursePrice;
 	}
 
+	public String getCourseAct_Date() {
+		return courseAct_Date;
+	}
+	
+	
+	public void setCourseAct_Date(String courseAct_Date) {
+		this.courseAct_Date = courseAct_Date;
+	}
+	
+	
+	public String getCourseAct_Time() {
+		return courseAct_Time;
+	}
+	
+	
+	public void setCourseAct_Time(String courseAct_Time) {
+		this.courseAct_Time = courseAct_Time;
+	}
 
 	public CourseOrders getCourseOrders() {
 		return courseOrders;
@@ -117,6 +152,8 @@ public class CourseOrderItems {
 	public void setCourseOrders(CourseOrders courseOrders) {
 		this.courseOrders = courseOrders;
 	}
+
+
 	
 	
 	

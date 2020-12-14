@@ -37,7 +37,7 @@
 			<td>斗內：</td>
 			<td>
 				<input type="hidden" value="${userView.id_SA }" name="id_SA">
-				<input type="text" name="sal" placeholder="請輸入金額">
+				<input type="text" name="sal" placeholder="請輸入金額">元（新台幣）
 			</td>
 		</tr>
 		<tr>

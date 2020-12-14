@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import oracle.net.aso.m;
 import tw.group4._04_.back.cmsAct.model.ShowBean;
+import tw.group4._04_.back.cmsAct.model.ShowBean2;
 import tw.group4._04_.front.seat.model.SeatBean;
 import tw.group4._04_.front.seat.model.SeatBeanDAO;
 import tw.group4._04_.front.seat.model.SeatBeanService;
@@ -75,7 +76,8 @@ public class SeatCrud {
 
 		// shoppingcart存入session
 
-		List seatlistList = new ArrayList();
+		List<String> seatlistList = new ArrayList();
+
 		for (int j = 0; j < ticketnum; j++) {
 
 			// 亂數A~E
@@ -87,33 +89,40 @@ public class SeatCrud {
 				num += random.nextInt(10) + 1;
 			}
 
-			String rString = Alphabet + num;
-			System.out.println(rString);
-			Integer seattpye = seatBeanService.search1seat(rString, actid);
+			String radomString = Alphabet + num;
+			System.out.println(radomString);
+			Integer seattpye = seatBeanService.search1seat(radomString, actid);
 			System.out.println("seattpye" + seattpye);
 
 			String seats[] = {};
-			if (seattpye == null) {
-				seatlistList.add(rString);
-			} else {
+			if (seattpye != null) {
+				ticketnum = ticketnum + 1;
 				System.out.println("座位已劃位");
-				//重新選座位
-				ticketnum=ticketnum+1;
-			}
-		}
 
-//		System.out.println("seatlistList"+seatlistList);
+			} else if (seatlistList.contains(radomString)) {
+				ticketnum = ticketnum + 1;
+				System.out.println("座位已重複");
+			} else {
+				// 重新選座位
+				seatlistList.add(radomString);
+				System.out.println(seatlistList.size());
+			}
+//			if (seattpye == null) {
+//
+//				seatlistList.add(radomString);
+//			} else {
+//				System.out.println("座位已劃位");
+//				// 重新選座位
+//				ticketnum = ticketnum + 1;
+//			}
+
+		}
 
 		/* ArrayList to Array Conversion */
 		String seats[] = new String[seatlistList.size()];
 		for (int j = 0; j < seatlistList.size(); j++) {
 			seats[j] = (String) seatlistList.get(j);
 		}
-		/* Displaying Array elements */
-//		for(String k: seats)
-//		{
-//			System.out.println(k);
-//		}
 
 		shoppingcart.setSeats(seats);
 		session.setAttribute("shoppingcart", shoppingcart);

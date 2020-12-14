@@ -11,11 +11,16 @@
 /* p, div { */
 
 /* } */
+.rs-symbol-color::after {
+	content: "*";
+	margin-left: 3px;
+	font-weight: 700;
+	color: rgb(203, 27, 69);
+}
 </style>
 
 </head>
 <body>
-
 	<!-- start banner Area -->
 	<section class="banner-area relative" id="home">
 		<div class="overlay overlay-bg"></div>
@@ -24,8 +29,10 @@
 				<div class="about-content col-lg-12">
 					<h1 class="text-white">AAART Shop</h1>
 					<p class="text-white link-nav">
-						<a href="index.html">Home </a> <span class="lnr lnr-arrow-right"></span>
-						<a href="<c:url value='/14/shopListController.ctrl' />"> Shop</a>
+						<a href="index.html">首頁 </a> <span class="lnr lnr-arrow-right"></span>
+						<a
+							href="<c:url value='/03/front/reservation/chooseNumberAndDate' />">
+							食堂訂位</a>
 					</p>
 				</div>
 			</div>
@@ -34,36 +41,21 @@
 	<!-- End banner Area -->
 	<div class="container">
 		<br>
+			<div class=title>
+				<h3 align="center" style="margin-top: 20px;">得藝食堂線上訂位</h3>
+			</div>
+			<br>
+		<c:if test="${reservationUpdateMsg != null}">
+			<div class=title>
+				<h3 align="center" style="margin-top: 20px;">${reservationUpdateMsg}</h3>
+			</div>
+		</c:if>
+		<c:if test="${reservationErrorMsg != null}">
 		<div class=title>
-			<h3 align="center" style="margin-top: 20px;">修改商店預約</h3>
-		</div>
-		<br>
-		<div class="back" align="right">
-			<form action="<c:url value='/index.html'/> " method="get">
-				<div class="submitButton">
-					<input type="submit" class="" name="submit" value="返回 會員專區">
-				</div>
-			</form>
-		</div>
-		<br>
-		<div class=content>
-			<table id="03"
-				class="display table table-bordered table-hover table-blue">
-				<thead></thead>
-				<tbody>
-					<tr>
-						<td>
-							<div align="center" style="font-size: larger">${reservationUpdateMsg}</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+				<h3 align="center" style="margin-top: 20px;">系統錯誤，請重試</h3>
+			</div>
+		</c:if>
 	</div>
 </body>
+</html>
 <!-- ====================================================== -->
-<script>
-	$(document).ready(function() {
-		$('#03').DataTable({});
-	});
-</script>

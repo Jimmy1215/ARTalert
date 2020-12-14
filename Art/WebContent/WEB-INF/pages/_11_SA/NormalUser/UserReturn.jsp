@@ -8,7 +8,24 @@
 <head>
 <script>
 $(document).ready( function () {
-    $('#table_id').DataTable();
+    $('#table_11').DataTable({
+    	language: {
+    		search: "在表格中搜尋：",
+    		lengthMenu:"每頁顯示 _MENU_ 筆資料",
+    		zeroRecords: "没有符合的结果",
+    		info: "顯示第 _START_ 至 _END_ 項结果，共 _TOTAL_ 項",
+    		infoEmpty: "顯示第 0 至 0 項结果，共 0 項",
+    		paginate: {
+                first: "首頁",
+                previous: "上一頁",
+                next: "下一頁",
+                last: "末頁"
+            },
+            infoFiltered: "(已比對 _MAX_ 項結果)",
+    	
+    	}
+        	
+    } );
 } );
 </script>
 
@@ -31,12 +48,13 @@ $(document).ready( function () {
 	</div>
 </section>
 <!-- 黑底終點 -->
-<h1 align="center">查詢結果</h1>
-<table id="table_id" class="display" align="center">
+<div style="padding: 50px;">
+	<h1 align="center">查詢結果</h1>
+	<table id="table_11" class="display" align="center">
 		<thead>
 			<tr>
 				<th style="text-align: center;">藝名</th>
-				<th style="text-align: center;">來自</th>
+				<th style="text-align: center;">表演地區</th>
 				<th style="text-align: center;">表演項目</th>
 				<th style="text-align: center;">分類</th>
 				<th style="text-align: center;">動作</th>
@@ -63,3 +81,4 @@ $(document).ready( function () {
 			</c:forEach>
 		</tbody>
 	</table>
+</div>

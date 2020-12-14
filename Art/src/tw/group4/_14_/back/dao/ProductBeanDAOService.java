@@ -18,6 +18,7 @@ import tw.group4._14_.front.model.OrderListBeamAP;
 //@Scope("session")
 @Service("ProductBeanDAOService")
 public class ProductBeanDAOService {
+	
 	@Autowired
 	private ProductBeanDAOImp pDAO;
 	

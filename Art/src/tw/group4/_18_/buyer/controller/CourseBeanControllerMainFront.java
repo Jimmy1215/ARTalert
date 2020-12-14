@@ -31,18 +31,9 @@ public class CourseBeanControllerMainFront {
 	@Hibernate
 	@RequestMapping(path = "/18/cSelectAllFront.ctrl", method = RequestMethod.GET) // 網址
 	public String processActionSelectAllF(Model m, HttpSession session) {
-//		 @RequestParam(name = "coHot")int coHot
-//		CourseCartCo ccco = (CourseCartCo) session.getAttribute("ccco");
-//		
-//				if (ccco == null) {
-//					ccco = new CourseCartCo();
-//			        session.setAttribute("ccco", ccco);
-//				}
 				
 		List<CourseFront> selectAllF = cBeanServiceF.selectAllF();
 		m.addAttribute("cListF", selectAllF);
-//	    String str =   (String) m.getAttribute("Update");
-//	    m.addAttribute("end1", str);
 		
 		return "18/buyerCo/18_CustomerSelectAll"; // jsp名字
 	}
@@ -55,11 +46,11 @@ public class CourseBeanControllerMainFront {
 		CourseFront cos = cBeanServiceF.selectF(coId);
 		cos.setCoHot(cos.getCoHot() + 1 ); // 點擊次數的欄位+1
 		m.addAttribute("cfd", cos);
-		
 
 		return "18/buyerCo/18_CourseDetail"; // jsp名字
 	}
 
+	
 	// 關鍵字查詢
 	@Hibernate
 	@RequestMapping(path = "/18/searchByWord.ctrl", method = RequestMethod.GET) // form action

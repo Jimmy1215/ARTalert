@@ -20,7 +20,7 @@
 //public class SearchRestaurant {
 //
 //	@Autowired
-//	private CreativeShopService css;
+//	public CreativeShopService css;
 //
 //	@RequestMapping(path = "/03/front/calendar/searchShopByShopNameAndReservation.ctrl", method = RequestMethod.POST)
 //	public String searchShopByShopNameAndReservation(@RequestParam(name = "shopName") String shopName,

@@ -85,6 +85,7 @@ public class ShowBean2 implements Serializable{
 	private String ACT_ENDDATE;
 	
 
+
 	public int getACT_NO() {
 		return ACT_NO;
 	}
@@ -212,6 +213,8 @@ public class ShowBean2 implements Serializable{
 	public void setACT_ENDDATE(String aCT_ENDDATE) {
 		ACT_ENDDATE = aCT_ENDDATE;
 	}
+	
+
 
 	
 	

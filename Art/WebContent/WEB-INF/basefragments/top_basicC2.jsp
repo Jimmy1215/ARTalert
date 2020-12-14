@@ -68,6 +68,7 @@
 					<ul class="nav-menu">
 						<li class="#"><a href="<c:url value='/index.html' />">首頁</a></li>
 						<li><a href="<c:url value='/14/shopListController.ctrl' />">得意洋行</a></li>
+						<li><a href="<c:url value='/03/front/reservation/onlineBooking.ctrl' />">得藝食堂</a></li>
 						<li><a href="<c:url value='/03/index/shop/index.ctrl' />">找商店</a></li>
 						<li><a href="<c:url value='/userStreetArtistPage.ctrl' />">找藝人</a></li>
 						<li><a href="<c:url value='/18/cSelectAllFront.ctrl' />">找課程</a></li>

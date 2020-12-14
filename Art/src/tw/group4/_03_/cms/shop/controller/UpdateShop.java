@@ -18,11 +18,11 @@ import tw.group4.util.Hibernate;
 public class UpdateShop {
 
 	@Autowired
-	private CreativeShopService css;
+	public CreativeShopService css;
 	
 	@Hibernate
 	@RequestMapping(path = "/03/cms/shop/updateShopByShopId.ctrl", method = RequestMethod.POST)
-	private String updateShopByShopId(@RequestParam(name = "shopId") String shopId, Model m) {
+	public String updateShopByShopId(@RequestParam(name = "shopId") String shopId, Model m) {
 		
 		try {
 			int id = Integer.parseInt(shopId);
@@ -49,7 +49,7 @@ public class UpdateShop {
 	
 	@Hibernate
 	@RequestMapping(path = "/03/cms/shop/updateShop.ctrl", method = RequestMethod.POST)
-	private String updateShop( 
+	public String updateShop( 
 			@RequestParam(name="shopId") String shopId,
 			@RequestParam(name="shopName") String shopName, 
 			@RequestParam(name="memberId") String memberId, 
@@ -94,7 +94,7 @@ public class UpdateShop {
 
 
 //	@RequestMapping(path = "/03/cms/shop/updateShopByShopName.ctrl", method = RequestMethod.POST)
-//	private String updateShopByShopName(@RequestParam(name = "shopName") String shopName, Model m) {
+//	public String updateShopByShopName(@RequestParam(name = "shopName") String shopName, Model m) {
 //
 //		try {
 //			List<CreativeShopBean> shopsList = css.selectByShopName(shopName);

@@ -25,7 +25,7 @@
 			<tbody>
 				<tr>
 					<td>
-						<div align="center" style="font-size: larger">${calendarUpdateMsg}</div>
+						<div align="center" style="font-size: larger">${restaurantUpdateMsg}</div>
 					</td>
 				</tr>
 			</tbody>

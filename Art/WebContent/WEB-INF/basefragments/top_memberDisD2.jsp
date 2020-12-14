@@ -68,16 +68,10 @@
 						<li><a href="<c:url value='/35/personelInfoEntry.ctrl' />">修改個人資訊</a></li>
 						<li><a href="<c:url value='/04/SearchOrder.ctrl' />">票卷訂單紀錄</a></li>
 						<li><a href="<c:url value='/14/showOrderList.ctrl' />">洋行購物紀錄</a></li>
-						<li><a href="<c:url value='/03/front/reservation/myReservation.ctrl' />">商店預約紀錄</a></li>
-						<li class="menu-has-children"><a href="">商店管理</a>
-							<ul>
-								<li><a href="<c:url value='/03/front/shop/myShop.ctrl' />">藝文商店管理</a></li>
-								<li><a href="<c:url value='/03/front/calendar/myCalendar.ctrl' />">行事曆管理</a></li>
-							</ul>
-						</li>
-						<li><a href="#">藝人聘用紀錄</a></li>
+						<li><a href="<c:url value='/03/front/reservation/myReservation.ctrl' />">食堂預約紀錄</a></li>
+						<li><a href="<c:url value='/showDonateList' />">藝人捐款紀錄</a></li>
 						<li><a href="#">課程購買紀錄</a></li>
-						<li><a href="#">我設計的旅程</a></li>
+						<li><a href="<c:url value='/35/myJourneyEntry' />">我的旅程</a></li>
 					</ul>
 				</nav>
 				<!-- #nav-menu-container -->

@@ -14,7 +14,7 @@ import tw.group4.util.Hibernate;
 public class DeleteRestaurant {
 
 	@Autowired
-	private RestaurantService rs;
+	public RestaurantService rs;
 	
 	@Hibernate
 	@RequestMapping(path = "/03/cms/restaurant/deleteRestaurant.ctrl", method = RequestMethod.POST)

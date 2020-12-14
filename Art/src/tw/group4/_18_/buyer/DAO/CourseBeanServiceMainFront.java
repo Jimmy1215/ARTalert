@@ -53,11 +53,29 @@ public class CourseBeanServiceMainFront {
 	
 		
 	public List<CourseFront> searchByWord(String searchWord){
+		List<CourseFront> list = cDAOF.searchByWord(searchWord);
+		List<CourseFront> list2 = new ArrayList<CourseFront>();
+		for (int i = 0; i < list.size(); i++) {
+			byte[] byt = list.get(i).getCoAct_Image();
+
+			String encodedString = Base64.encodeBase64String(byt); // Base64是一種能將任意Binary資料用64種字元組合成字串的方法
+			list.get(i).setCoAct_ImageStr(encodedString);
+			list2.add(list.get(i));
+		}
 		return cDAOF.searchByWord(searchWord);
 	}
 	
 	
 	public List<CourseFront> searchByType(String searchType){
+		List<CourseFront> list = cDAOF.searchByType(searchType);
+		List<CourseFront> list2 = new ArrayList<CourseFront>();
+		for (int i = 0; i < list.size(); i++) {
+			byte[] byt = list.get(i).getCoAct_Image();
+
+			String encodedString = Base64.encodeBase64String(byt); // Base64是一種能將任意Binary資料用64種字元組合成字串的方法
+			list.get(i).setCoAct_ImageStr(encodedString);
+			list2.add(list.get(i));
+		}
 		return cDAOF.searchByType(searchType);
 	}
 	

@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<div class="container">
+<div class="content">
 	<br>
 	<div class=title>
 		<h3 align="center" style="margin-top: 20px;">得藝食堂 管理系統</h3>
@@ -13,42 +13,45 @@
 			action="<c:url value='/03/cms/restaurant/restaurantManagement'/> "
 			method="get">
 			<div class="submitButton">
-				<input type="submit" class="" name="submit" value="返回 營業時間管理首頁">
+				<input type="submit" class='btn btn-outline-info' name="submit" value="返回 訂位時間首頁">
 			</div>
 		</form>
 	</div>
-	<br>
-	<div class=content>
+	<div>
 		<form method="post"
 			action="<c:url value = "/03/cms/restaurant/createRestaurant.ctrl"/>">
-			<div align="center" style="font-size: large;">${year}年
-				${month}月營業行事曆</div>
+			<div align='center' style='font-size: x-large; font-weight:bold;'>${year}年&nbsp;${month}月訂位時間表</div>
 			<br>
-			<table id="03A"
+			<div align='center' style='font-size: x-large; font-weight:bold;'>
+				<input type="submit" class='btn btn-outline-info' name="submit" value="建立${month}月訂位時間表" >
+			</div>
+			<br>
+			<table id="03A" style="margin-bottom: 0px"
 				class="display table table-bordered table-hover table-blue">
 				<thead>
 					<tr>
-						<th>日期</th>
-						<th>當日是否營業</th>
-						<th>線上訂位人數上限</th>
-						<th>營業時段</th>
+						<th style="display: none">日</th>
+						<th class='table-warning'>日期</th>
+						<th class='table-success'>當日是否營業</th>
+						<th class='table-danger'>訂位人數上限</th>
+						<th class='table-info'>可訂位時段</th>
 					</tr>
 				</thead>
-				<tfoot></tfoot>
 				<tbody>
 					<c:forEach items="${dayList}" var="dayList" varStatus="vs">
 						<tr>
+							<td style="display: none"><input type="hidden">${dayList}</td>
 							<td><input type="hidden" name="day" value="${dayList}">${month}/${dayList}</td>
 							<td>
-								<div class="default-select">
-									<select name="open">
+								<div style="width: 150px">
+									<select name="open" class="custom-select">
 										<option value="1" selected>營業日</option>
 										<option value="0">店休日</option>
 									</select>
 								</div>
 							</td>
-							<td><div class="default-select">
-									<select name="maximum">
+							<td><div style="width: 125px">
+									<select name="maximum" class="custom-select">
 										<option value="1" selected>1位</option>
 										<option value="2">2位</option>
 										<option value="3">3位</option>
@@ -101,81 +104,60 @@
 										<option value="50">50位</option>
 									</select>
 								</div></td>
-							<td>
-								<div class="default-select">
-									<label>09:00</label> 
-									<select name="h09">
-										<option value="1" selected>營業時段</option>
-										<option value="0">非營業時段</option>
-									</select> 
-									<label>10:00</label> 
-									<select name="h10">
-										<option value="1" selected>營業時段</option>
-										<option value="0">非營業時段</option>
-									</select> 
-									<label>11:00</label> 
-									<select name="h11">
-										<option value="1" selected>營業時段</option>
-										<option value="0">非營業時段</option>
-									</select> 
-									<label>12:00</label> 
-									<select name="h12">
-										<option value="1" selected>營業時段</option>
-										<option value="0">非營業時段</option>
-									</select>
-								</div>
-								<div class="default-select">
-									<label>13:00</label> 
-									<select name="h13">
-										<option value="1" selected>營業時段</option>
-										<option value="0">非營業時段</option>
-									</select> 
-									<label>14:00</label> 
-									<select name="h14">
-										<option value="1" selected>營業時段</option>
-										<option value="0">非營業時段</option>
-									</select> 
-									<label>15:00</label> 
-									<select name="h15">
-										<option value="1" selected>營業時段</option>
-										<option value="0">非營業時段</option>
-									</select> 
-									<label>16:00</label> 
-									<select name="h16">
-										<option value="1" selected>營業時段</option>
-										<option value="0">非營業時段</option>
-									</select>
-								</div>
-								<div class="default-select">
-									<label>17:00</label> 
-									<select name="h17">
-										<option value="1" selected>營業時段</option>
-										<option value="0">非營業時段</option>
-									</select> 
-									<label>18:00</label> 
-									<select name="h18">
-										<option value="1" selected>營業時段</option>
-										<option value="0">非營業時段</option>
-									</select> 
-									<label>19:00</label> 
-									<select name="h19">
-										<option value="1" selected>營業時段</option>
-										<option value="0">非營業時段</option>
-									</select> 
-									<label>20:00</label> 
-									<select name="h20">
-										<option value="1" selected>營業時段</option>
-										<option value="0">非營業時段</option>
-									</select> 
-								</div>
-								<div>
-									<label>21:00</label> 
-									<select name="h21">
-										<option value="1" selected>營業時段</option>
-										<option value="0">非營業時段</option>
-									</select> 
-								</div>
-							</td>
+							<td><label>09:00</label> 
+							<select name="h09" class="custom-select" style="width: 120px">
+									<option value="1" selected>營業</option>
+									<option value="0">店休</option>
+							</select> 
+							<label>10:00</label> <select name="h10" class="custom-select"
+								style="width: 120px">
+									<option value="1" selected>營業</option>
+									<option value="0">店休</option>
+							</select> <label>11:00</label> <select name="h11" class="custom-select"
+								style="width: 120px">
+									<option value="1" selected>營業</option>
+									<option value="0">店休</option>
+							</select> <br> <label>12:00</label> <select name="h12"
+								class="custom-select" style="width: 120px">
+									<option value="1" selected>營業</option>
+									<option value="0">店休</option>
+							</select> <label>13:00</label> <select name="h13" class="custom-select"
+								style="width: 120px">
+									<option value="1" selected>營業</option>
+									<option value="0">店休</option>
+							</select> <label>14:00</label> <select name="h14" class="custom-select"
+								style="width: 120px">
+									<option value="1" selected>營業</option>
+									<option value="0">店休</option>
+							</select> <br> <label>15:00</label> <select name="h15"
+								class="custom-select" style="width: 120px">
+									<option value="1" selected>營業</option>
+									<option value="0">店休</option>
+							</select> <label>16:00</label> <select name="h16" class="custom-select"
+								style="width: 120px">
+									<option value="1" selected>營業</option>
+									<option value="0">店休</option>
+							</select> <label>17:00</label> <select name="h17" class="custom-select"
+								style="width: 120px">
+									<option value="1" selected>營業</option>
+									<option value="0">店休</option>
+							</select> <br> <label>18:00</label> <select name="h18"
+								class="custom-select" style="width: 120px">
+									<option value="1" selected>營業</option>
+									<option value="0">店休</option>
+							</select> <label>19:00</label> <select name="h19" class="custom-select"
+								style="width: 120px">
+									<option value="1" selected>營業</option>
+									<option value="0">店休</option>
+							</select> <label>20:00</label> <select name="h20" class="custom-select"
+								style="width: 120px">
+									<option value="1" selected>營業</option>
+									<option value="0">店休</option>
+							</select> <br> <label>21:00</label> <select name="h21"
+								class="custom-select" style="width: 120px">
+									<option value="1" selected>營業</option>
+									<option value="0">店休</option>
+							</select></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -188,19 +170,14 @@
 			</div>
 			<!-- ====================================================== -->
 			<br>
-			<div class="submitButton" align="center" style="font-size: larger">
-				<input type="submit" name="submit" value="建立${month}月營業行事曆">
+			<div align='center' style='font-size: x-large; font-weight:bold;'>
+				<input type="submit" class='btn btn-outline-info' name="submit" value="建立${month}月訂位時間表" >
 			</div>
 			<br>
 		</form>
 	</div>
 </div>
 <!-- ====================================================== -->
-<script>
-	$(document).ready(function() {
-		$('#03A').DataTable({});
-	});
-</script>
 
 
 

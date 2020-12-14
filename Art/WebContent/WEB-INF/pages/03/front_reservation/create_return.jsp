@@ -41,21 +41,27 @@
 	<!-- End banner Area -->
 	<div class="container">
 		<br>
-			<div class=title>
-				<h3 align="center" style="margin-top: 20px;">得藝食堂線上訂位</h3>
-			</div>
-			<br>
+		<div class=title>
+			<h2 align="center" style="margin-top: 20px;">得藝食堂線上訂位</h2>
+			<h2 align="center" style="margin-top: 20px;">輪播廣告</h2>
+		</div>
+		<br>
 		<c:if test="${reservationCreateMsg != null}">
 			<div class=title>
-				<h3 align="center" style="margin-top: 20px;">${reservationCreateMsg}</h3>
-				<h4 align="center" style="margin-top: 20px;">如您想預先付款、修改或刪除訂位，可從會員專區的食堂訂位紀錄進行操作</h4>
+				<h3 align="center" style="margin-top: 20px; margin-bottom: 10px">${reservationCreateMsg}</h3>
+				<h4 align="center" style="margin-top: 20px;">
+					如您想預先付款、修改或刪除訂位<br>可從會員專區的食堂訂位紀錄進行操作
+				</h4>
 			</div>
+			<br>
 			<div class="submitButton" align="center" style="font-size: larger">
-				<input type="submit" name="submit" value="查看訂位紀錄">
+				<form method="get" action="<c:url value = "/03/front/reservation/myReservation.ctrl"/>">
+					<input type="submit" name="submit" value="查看訂位紀錄">
+				</form>
 			</div>
 		</c:if>
 		<c:if test="${reservationErrorMsg != null}">
-		<div class=title>
+			<div class=title>
 				<h3 align="center" style="margin-top: 20px;">系統錯誤，請重試</h3>
 			</div>
 		</c:if>

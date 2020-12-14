@@ -17,7 +17,7 @@ import tw.group4.util.Hibernate;
 public class RedirectShopController {
 
 	@Autowired
-	private CreativeShopService css;
+	public CreativeShopService css;
 	
 	@Hibernate
 	@RequestMapping(path = "/03/cms/shop/index.ctrl", method = RequestMethod.GET)

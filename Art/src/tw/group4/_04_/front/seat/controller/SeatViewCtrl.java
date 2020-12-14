@@ -16,7 +16,7 @@ public class SeatViewCtrl {
 		@RequestMapping(path = "/04/seatmap", method = RequestMethod.GET)
 		public String processShowSeatmap( ) {
 			
-			return "04/front_Seat/Seat2";
+			return "04/front_Seat/Seatmap";
 		}
 	
 

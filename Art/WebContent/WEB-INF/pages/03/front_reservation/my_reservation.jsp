@@ -11,6 +11,9 @@
 /* p, div { */
 
 /* } */
+td {
+	vertical-align: middle;
+}
 </style>
 
 </head>
@@ -46,15 +49,16 @@
 					<table id="03"
 						class="display table table-bordered table-hover table-info">
 						<thead>
-							<tr class="head">
+							<tr class="head" align="center">
 								<th scope="col">訂位人姓名</th>
 								<th scope="col">連絡電話</th>
 								<th scope="col">訂位日期</th>
 								<th scope="col">用餐時間</th>
-								<th scope="col">大人人數</th>
+								<th scope="col">用餐人數</th>
 								<!-- ===================== -->
-								<th scope="col">小孩人數</th>
-								<th scope="col">功能</th>
+								<th scope="col" colspan="2"><div align="center">修改訂位</div></th>
+								<th scope="col"><div align="center">刪除訂位</div></th>
+								<th scope="col"><div align="center">付款</div></th>
 							</tr>
 						</thead>
 						<tfoot>
@@ -63,36 +67,43 @@
 							<c:if test="${reservationList != null}">
 								<c:forEach items="${reservationList}" var="reservationList"
 									varStatus="vs">
-									<tr>
+									<tr align="center">
 										<td>${reservationList.customerName}</td>
 										<td>${reservationList.customerPhone}</td>
 										<td>${reservationList.dateTime}</td>
 										<td>${reservationList.time}</td>
-										<td>${reservationList.adultsNum}</td>
+										<td>${reservationList.amount}&nbsp;位</td>
 										<!-- ======================= -->
-										<td>${reservationList.childrenNum}</td>
 										<td>
 											<form method="post"
-												action="<c:url value="/03/front/reservation/updateReservationByNo.ctrl"/>">
-												<button name="updateButton" type="submit"
+												action="<c:url value="/03/front/reservation/updateReservationInfo.ctrl"/>">
+												<button name="updateInfoButton" type="submit"
 													value="${reservationList.reservationNo}">修改聯絡資訊</button>
 												<Input type="hidden" name="reservationNo"
 													value="${reservationList.reservationNo}">
 											</form>
+										</td>
+										<td>
+
 											<form method="post"
-												action="<c:url value="/03/front/reservation/updateReservationByNo.ctrl"/>">
-												<button name="updateButton" type="submit"
-													value="${reservationList.reservationNo}">修改人數</button>
+												action="<c:url value="/03/front/reservation/updateReservationAmount.ctrl"/>">
+												<button name="updateAmountButton" type="submit"
+													value="${reservationList.reservationNo}">修改用餐人數</button>
 												<Input type="hidden" name="reservationNo"
 													value="${reservationList.reservationNo}">
 											</form>
+										</td>
+										<td>
 											<form method="post"
 												action="<c:url value="/03/front/reservation/deleteReservation.ctrl"/>">
 												<button name="deleteButton" type="submit"
-													value="${reservationList.reservationNo}">刪除訂位</button>
+													value="${reservationList.reservationNo}">刪除食堂訂位</button>
 												<Input type="hidden" name="reservationNo"
 													value="${reservationList.reservationNo}">
 											</form>
+										</td>
+										<td>
+											<div align="center">未付款</div>
 										</td>
 									</tr>
 								</c:forEach>

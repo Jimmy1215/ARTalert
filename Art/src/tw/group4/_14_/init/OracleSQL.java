@@ -29,6 +29,7 @@ public class OracleSQL {
 	
 	private static final String DROP_MessageBoardRecord  = "DROP TABLE MBRECORD";
 	
+	private static final String DROP_EntryClickRate  = "DROP TABLE ENTRYCLICKRATE";
 
 	private static final String CREATE_APMember = " CREATE TABLE APMEMBER " 
 			
@@ -108,7 +109,7 @@ public class OracleSQL {
 			+ " ISSUEID            number, "
 			+ " CONTENTAC          varchar2(172), "
 			+ " DESCRIPTION        varchar2(200), "
-			+ " STATUS            number "
+			+ " STATUS             number "
 			+ " ) ";
 
 	
@@ -117,6 +118,18 @@ public class OracleSQL {
 			+ " MEMBERID 		   number ,"
 			+ " APID           	   number, "
 			+ " STATUS             number "
+			+ " ) ";
+	
+
+	private static final String CREATE_EntryClickRate = "Create TABLE ENTRYCLICKRATE "
+			+ "(ECRNO number generated as identity constraint ECRNO primary key, "
+			+ " TICKET 		   number ,"
+			+ " SHOP           number, "
+			+ " RESTAURANT     number, "
+			+ " MAP            number, "
+			+ " NEARBY         number, "
+			+ " COURSE         number, "
+			+ " ARTIST         number "
 			+ " ) ";
 	
 	
@@ -206,6 +219,14 @@ public class OracleSQL {
 
 	public static String getCreateMessageboardrecord() {
 		return CREATE_MessageBoardRecord;
+	}
+
+	public static String getDropEntryclickrate() {
+		return DROP_EntryClickRate;
+	}
+
+	public static String getCreateEntryclickrate() {
+		return CREATE_EntryClickRate;
 	}
 	
 	

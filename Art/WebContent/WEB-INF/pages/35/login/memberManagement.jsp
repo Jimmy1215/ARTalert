@@ -8,6 +8,10 @@
 <title>會員資訊管理</title>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
+body {
+	font-size: 20px;
+	color: black;
+}
 .post {
 	display: none;
 }

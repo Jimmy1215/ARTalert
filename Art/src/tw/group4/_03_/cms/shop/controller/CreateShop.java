@@ -16,7 +16,7 @@ import tw.group4.util.Hibernate;
 public class CreateShop {
 
 	@Autowired
-	private CreativeShopService css;
+	public CreativeShopService css;
 
 	@RequestMapping(path = "/03/cms/shop/createConfirm.ctrl", method = RequestMethod.GET)
 	public String createConfirm() {

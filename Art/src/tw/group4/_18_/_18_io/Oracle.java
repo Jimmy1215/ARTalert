@@ -47,8 +47,8 @@ public class Oracle {
 			+ " coact_type				varchar2(50),  "
 			+ " coact_location			varchar2(150), " 
 			+ " colocation_name			varchar2(120), " 
-			+ " conum			    	number(10,2),  "
 			+ " coprice			    	number(10,2),  "
+			+ " conum			    	number(10,2),  "
 			+ " coact_date				varchar2(60),  " 
 			+ " coact_time				varchar2(60),  " 
 			+ " coend_date				varchar2(60),  " 
@@ -62,7 +62,9 @@ public class Oracle {
 			+ "(coid					number(8,2), " 
 			+ " cotitle				    varchar2(100), " 
 			+ " coprice			    	number(10,2),  " 
-			+ " cocnum			    	number(10,2),  "			
+			+ " cocnum			    	number(10,2),  "
+			+ " coact_date				varchar2(60),  " 
+			+ " coact_time				varchar2(60),  " 
 			+ " PRIMARY KEY(COId))";
 	
 	
@@ -82,7 +84,9 @@ public class Oracle {
 			+ " ORDERNOCO integer NOT NULL REFERENCES COURSEORDERS (ORDERNOCO),"		
 			+ " COURSETITLECO           varchar2(150), "
 			+ " COURSENUMCO             int, "
-			+ " COURSEPRICECO           varchar2(20) "
+			+ " COURSEPRICECO           varchar2(20), "
+			+ " COURSEACT_DATECO		varchar2(60),  " 
+			+ " COURSEACT_TIMECO		varchar2(60)  " 
 			+ " ) ";
 
 	public static String getCreateCourseOrderItems() {

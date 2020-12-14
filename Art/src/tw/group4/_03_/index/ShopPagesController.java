@@ -19,13 +19,8 @@ import tw.group4.util.Hibernate;
 public class ShopPagesController {
 
 	@Autowired
-	private CreativeShopService css;
+	public CreativeShopService css;
 
-	@RequestMapping(path = "/03/index/shop/template", method = RequestMethod.GET)
-	public String redirectToShopTemplate(HttpSession session) {
-		return "03/index_shop/template";
-	}
-	
 	@Hibernate
 	@RequestMapping(path = "/03/index/shop/index.ctrl", method = RequestMethod.GET)
 	public String redirectToShopIndex(HttpSession session, Model m) {
@@ -41,6 +36,29 @@ public class ShopPagesController {
 			e.printStackTrace();
 		}
 		return "03/index_shop/index";
+	}
+	
+	@Hibernate				
+	@RequestMapping(path = "/03/index/shop/searchShopByName.ctrl", method = RequestMethod.POST)
+	public String searchShopByShopName(@RequestParam(name = "shopName") String shopName, Model m) {
+
+		try {
+
+			List<CreativeShopBean> shopsList = css.selectByShopName(shopName);
+			
+			if (shopsList.size() != 0) {
+				m.addAttribute("shopsList", shopsList);
+			} else {
+				String acShopsSerachMsg = "很抱歉，查無商店資料，請嘗試使用其他名稱搜尋";
+				m.addAttribute("acShopsSerachMsg", acShopsSerachMsg);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			String acShopsSerachMsg = "商店資料搜尋失敗";
+			System.out.println(acShopsSerachMsg);
+		}
+		return "03/index_shop/search_shop";
 	}
 	
 	@Hibernate

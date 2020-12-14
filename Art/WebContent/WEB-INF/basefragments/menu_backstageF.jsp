@@ -116,47 +116,43 @@
 			</div>
 		</div></li>
 
-	<!-- 預約服務 -->
+	<!-- 得藝食堂 -->
 	<li class="nav-item"><a class="nav-link collapsed" href="#"
 		data-toggle="collapse" data-target="#collapsePages3"
 		aria-expanded="true" aria-controls="collapsePages"> <i
-			class="fas fa-store"></i> <span>預約服務</span>
+			class="fas fa-store"></i> <span>得藝食堂服務</span>
 	</a>
 		<div id="collapsePages3" class="collapse"
 			aria-labelledby="headingPages" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
 				<div class="collapse-divider"></div>
-				<h6 class="collapse-header">商店預約:</h6>
+				<h6 class="collapse-header">營業相關設定:</h6>
 				<a class="collapse-item"
-					href="<c:url value='/03/cms/reservation/create'/>">預約商店</a> <a
-					class="collapse-item"
-					href="<c:url value='/03/cms/reservation/search'/>">查詢預約</a> <a
-					class="collapse-item"
-					href="<c:url value='/03/cms/reservation/update'/>">修改預約</a> <a
-					class="collapse-item"
-					href="<c:url value='/03/cms/reservation/delete'/>">刪除預約</a>
+					href="<c:url value='/03/cms/restaurant/restaurantManagement'/>">訂位時間管理</a>
+				<div class="collapse-divider"></div>
+				<h6 class="collapse-header">顧客訂位服務:</h6>
+				<a class="collapse-item"
+					href="<c:url value='/03/cms/restaurant/createRestaurantConfirm.ctrl'/>">新增食堂訂位</a>
+				<a class="collapse-item"
+					href="<c:url value='/03/cms/restaurant/createRestaurantConfirm.ctrl'/>">食堂訂位管理</a>
 			</div>
 		</div></li>
 
-	<!-- 藝文商店服務 -->
+	<!-- 合作商店管理 -->
 	<li class="nav-item"><a class="nav-link collapsed" href="#"
 		data-toggle="collapse" data-target="#collapsePages31"
 		aria-expanded="true" aria-controls="collapsePages"> <i
-			class="fas fa-store"></i> <span>藝文商店服務</span>
+			class="fas fa-store"></i> <span>合作商店服務</span>
 	</a>
 		<div id="collapsePages31" class="collapse"
 			aria-labelledby="headingPages" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
 				<div class="collapse-divider"></div>
-				<h6 class="collapse-header">藝文商店資訊:</h6>
+				<h6 class="collapse-header">藝文商店管理:</h6>
 				<a class="collapse-item"
-					href="<c:url value='/03/cms/shop/index.ctrl'/>">藝文商店管理</a> <a
-					class="collapse-item"
 					href="<c:url value='/03/cms/shop/createConfirm.ctrl'/>">上架藝文商店</a>
-				<div class="collapse-divider"></div>
-				<h6 class="collapse-header">商店行事曆:</h6>
 				<a class="collapse-item"
-					href="<c:url value='/03/cms/calendar/index.ctrl'/>">行事曆管理</a>
+					href="<c:url value='/03/cms/shop/index.ctrl'/>">藝文商店管理</a>
 			</div>
 		</div></li>
 

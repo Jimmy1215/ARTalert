@@ -51,10 +51,10 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">洋行營收</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{text}}元</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{text | money }}</div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                      <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i> 
                     </div>
                   </div>
                 </div>
@@ -67,8 +67,8 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">總營收</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">活動售票收入</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ticketSum | money }}</div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -84,20 +84,20 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">成立訂單數</div>
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">距離註冊會員人數達 100 人還差</div>
                       <div class="row no-gutters align-items-center">
                         <div class="col-auto">
-                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50 筆</div>
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{100-member}} 位</div>
                         </div>
                         <div class="col">
                           <div class="progress progress-sm mr-2">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-info" role="progressbar" :style="{width: memberPcen}" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                      <i class="fas fa-users fa-2x text-gray-300"></i>
                     </div>
                   </div>
                 </div>
@@ -160,7 +160,7 @@
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">主要收入來源</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">各收入來源占比</h6>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -365,6 +365,15 @@
     </div>
   </div>
   
+<script>
+//編輯金錢格式，Vue.filter 必須設置在 new Vue 之前
+Vue.filter('money',function(num){
+    const parts = num.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return '$' + parts.join('.');
+});
+
+</script>
 
 
 <script>
@@ -374,9 +383,13 @@
         		return {
             		
 					list:null,
-					text:null
+					text:0,
+					ticketSum:0,
+					member:0,
+					memberPcen:'5%'
         		}
 	    	},
+
             	mounted: function(){
       	          var self = this;
 //       	          var apid = $("#productID").val();
@@ -396,6 +409,7 @@
 
       	        
       	      }
+
         	})
         </script>
 
@@ -403,6 +417,7 @@
   <script>
   $(document).ready(function () {
       var self = vm;
+      var clock = setInterval(sum , 5000);
     $.ajax({
       type:"get",
       url:"/Art/14/sum.ctrl",    
@@ -413,59 +428,121 @@
       	
       },
       error:function(){
-          alert("整組壞光光");
+          alert("整組壞光光 at /14/sum.ctrl");
       }
     });
+
+    $.ajax({
+        type:"get",
+        url:"/Art/14/showsumTicketTotal",    
+        dataType:"text",
+        success:function(value){
+        	self.ticketSum = value;
+        	
+        },
+        error:function(){
+            alert("整組壞光光 at /14/showsumTicketTotal");
+        }
+      });
+
+    $.ajax({
+        type:"get",
+        url:"/Art/14/showSumMember",    
+        dataType:"text",
+        success:function(value){
+        	self.member = value;
+        	self.memberPcen = value+"%";
+        },
+        error:function(){
+            alert("整組壞光光 at /14/showSumMember");
+        }
+      });
+    
   })
+  
+  
+  function sum(){
+// 	  alert('安安');
+	  var self = vm;
+	    $.ajax({
+	      type:"get",
+	      url:"/Art/14/sum.ctrl",    
+	      dataType:"text",
+	      success:function(value){
+	      	self.text = value;
+	      	
+	      },
+	      error:function(){
+	          alert("整組壞光光 at /14/sum.ctrl");
+	      }
+	    });
+
+	    $.ajax({
+	        type:"get",
+	        url:"/Art/14/showsumTicketTotal",    
+	        dataType:"text",
+	        success:function(value){
+	        	self.ticketSum = value;
+	        	
+	        },
+	        error:function(){
+	            alert("整組壞光光 at /14/showsumTicketTotal");
+	        }
+	      });
+
+	  }
+  
   </script>
    <!-- Charts Data JS -->
 <script src="<c:url value='/vendor/chart.js/Chart.min.js'/>"></script>
 <%-- <script src="<c:url value='/js/demo/chart-area-demo.js'/>"></script> --%>
 <%-- <script src="<c:url value='/js/demo/chart-pie-demo.js'/>"></script>  --%>
 <script src="<c:url value='/js14/barChart.js'/>"></script> 
+<script src="<c:url value='/js14/pieChart.js'/>"></script> 
 
 <script>
-var ctx = document.getElementById('myDoughnutChart').getContext('2d');
-var myDoughnutChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-        datasets: [{
-            data: [
-              1200,
-              1112,
-              533,
-              202,
-              105,
-            ],
-            backgroundColor: [
-              "#F7464A",
-              "#46BFBD",
-              "#FDB45C",
-              "#949FB1",
-              "#4D5360",
-            ],
-            label: 'Dataset 1'
-        }],
-        labels: [
-          "售票",
-          "商城",
-          "餐廳",
-          "課程",
-          "贊助"
-        ]
-    },
-    options: {
-        responsive: true,
-        legend: {
-            position: 'top',
-        },
+
+// var ctx = document.getElementById('myDoughnutChart').getContext('2d');
+// var myDoughnutChart = new Chart(ctx, {
+//     type: 'doughnut',
+//     data: {
+//         datasets: [{
+//             data: [
+//               1200,
+//               1112,
+//               533,
+//               202,
+//               105,
+//             ],
+//             backgroundColor: [
+//               "#F7464A",
+//               "#46BFBD",
+//               "#FDB45C",
+//               "#9999CC",
+//               "#4D5360",
+//             ],
+//             label: 'Dataset 1'
+//         }],
+//         labels: [
+//           "售票",
+//           "商城",
+//           "餐廳",
+//           "課程",
+//           "贊助"
+//         ]
+//     },
+//     options: {
+//         responsive: true,
+//         legend: {
+//             position: 'top',
+//         },
         
-        animation: {
-            animateScale: true,
-            animateRotate: true
-        }
-    }
-});
+//         animation: {
+//             animateScale: true,
+//             animateRotate: true
+//         }
+//     }
+// });
 
 </script>
 

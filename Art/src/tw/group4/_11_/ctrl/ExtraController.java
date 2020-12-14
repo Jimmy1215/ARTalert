@@ -1,7 +1,9 @@
 package tw.group4._11_.ctrl;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +27,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import tw.group4._11_.model.DonateRecordBean;
 import tw.group4._11_.model.UserSABean;
 import tw.group4._11_.model.UserSADao;
 import tw.group4._11_.model.UserSAService;
+import tw.group4._35_.login.model.WebsiteMember;
 import tw.group4._35_.login.model.WebsiteMemberService;
 import tw.group4.util.Hibernate;
 
@@ -78,10 +85,28 @@ public class ExtraController {
 				totlePages.add(i);
 			}
 			
+			List<Integer> first8Pages = new ArrayList<Integer>();
+			for (int i = 1; i <= 15; i++) {
+				first8Pages.add(i);
+			}
+			
+			List<Integer> middlePages = new ArrayList<Integer>();
+			for (int i = page-7; i <= page+7; i++) {
+				middlePages.add(i);
+			}
+			
+			List<Integer> last8Pages = new ArrayList<Integer>();
+			for (int i = totalPage-14 ; i <= totalPage; i++) {
+				last8Pages.add(i);
+			}
+			
 			m.addAttribute("BeanList_SA",list);
 			m.addAttribute("PageMum_SA",page);
 			m.addAttribute("totalPages_SA",totalPage);
 			m.addAttribute("allPages",totlePages);
+			m.addAttribute("first8Pages",first8Pages);
+			m.addAttribute("middlePages",middlePages);
+			m.addAttribute("last8Pages",last8Pages);
 		}
 		
 		return "_11_SA/NormalUser/Showing_2";
@@ -89,9 +114,24 @@ public class ExtraController {
 	
 	@Hibernate
 	@RequestMapping(path = "/searchSA2.ctrl",method = RequestMethod.POST)
-	public String searchSA(@RequestParam(name = "word") String searchSA, Model m) {
+	public String searchSA2(@RequestParam(name = "word") String searchSA, Model m) {
 		
 		List<UserSABean> list= uDAO.search(searchSA);
+		
+		m.addAttribute("reUBeanList_SA",list);
+		
+		return "_11_SA/NormalUser/UserReturn";
+	}
+	
+	@Hibernate
+	@RequestMapping(path = "/searchSA3.ctrl",method = RequestMethod.POST)
+	public String searchSA3(
+			@RequestParam(name = "country") String country,
+			@RequestParam(name = "classification") String classification,
+			@RequestParam(name = "theme") String theme,
+			Model m) {
+		
+		List<UserSABean> list = uDAO.search3(country, classification, theme);
 		
 		m.addAttribute("reUBeanList_SA",list);
 		
@@ -126,6 +166,11 @@ public class ExtraController {
 			return "redirect:/userStreetArtistPage.ctrl";
 		}
 		
+		WebsiteMember mb = (WebsiteMember) session.getAttribute("member");
+		if (mb == null) {
+			return "redirect:/35/loginEntry";
+		}
+		
 		int id = Integer.parseInt(id_dn);
 		List<UserSABean> list = uDAO.searchID(id);
 		
@@ -134,21 +179,13 @@ public class ExtraController {
 	}
 	
 	@Hibernate
-	@GetMapping(path ="/doDonate.ctrl")
+	@RequestMapping(path ="/doDonate.ctrl")
 	public String doDonate(
 			@RequestParam(name = "id_SA") String id_SA,
 			@RequestParam(name = "sal") String salWeb,
-			ServletRequest request,
-			ServletResponse response,
-			Model m) throws IOException, ServletException{
-		
-		HttpServletResponse httpRes = (HttpServletResponse) response;
-		HttpServletRequest httpReq = (HttpServletRequest) request;
-		HttpSession session = httpReq.getSession();
-		
-		
-		
-		int id = Integer.parseInt(id_SA);
+			HttpSession hSession,
+			Model m) throws IOException,HttpException{
+		int idsa = Integer.parseInt(id_SA);
 		Map<String, String> errors = new HashMap<String, String>();
 		m.addAttribute("errors", errors);
 		
@@ -156,12 +193,33 @@ public class ExtraController {
 			errors.put("msg", "please enter a number!!");
 		} 
 		
+		WebsiteMember mb = (WebsiteMember) hSession.getAttribute("member");
+		Integer id = mb.getId();
+		WebsiteMember selectById = wDaoService.selectById(id);
+		
+		UserSABean beanSA = uDAO.selectById(idsa);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();
+		
+		String name_SA = beanSA.getName_SA();
+		String memberName = selectById.getRealName();
+		String donateTime = sdf.format(date);
+		
+		DonateRecordBean record = new DonateRecordBean();
 		try {
 			int sal = Integer.parseInt(salWeb);
 			if (sal <= 0) {
 				errors.put("msg", "不可輸入小於零或等於零的數字");
 			}
-			uDAO.donateToSA(id, sal);
+			uDAO.donateToSA(idsa, sal);
+			
+			record.setName_SA(name_SA);
+			record.setDonate_sa(sal);
+			record.setName_user(memberName);
+			record.setTime(donateTime);
+			
+			uService.insert(record);
 		} catch (Exception e) {
 			errors.put("msg", "請勿輸入數字以外的字串!!");
 			e.printStackTrace();
@@ -171,11 +229,45 @@ public class ExtraController {
 		return "_11_SA/NormalUser/Success";
 	}
 	
+	@Hibernate
+	@RequestMapping(path ="/showDonateList")
+	public String showDonateList(
+			HttpSession hSession,
+			Model m) {
+		if (hSession == null) {
+			return "redirect:/userStreetArtistPage.ctrl";
+		}
+		
+		WebsiteMember mb = (WebsiteMember) hSession.getAttribute("member");
+		if (mb == null) {
+			return "redirect:/35/loginEntry";
+		}
+		
+		Integer id = mb.getId();
+		WebsiteMember member = wDaoService.selectById(id);
+		
+		String username = member.getRealName();
+		List<DonateRecordBean> list1 = uService.showList(username);
+		
+		m.addAttribute("donationList", list1);
+		return "_11_SA/NormalUser/ShowHisDonateRecord";
+	}
+	
+//	@Hibernate
 //	@GetMapping(path ="/doDonate.ctrl")
 //	public String doDonate(
 //			@RequestParam(name = "id_SA") String id_SA,
 //			@RequestParam(name = "sal") String salWeb,
-//			Model m) {
+//			ServletRequest request,
+//			ServletResponse response,
+//			Model m) throws IOException, ServletException{
+//		
+//		HttpServletResponse httpRes = (HttpServletResponse) response;
+//		HttpServletRequest httpReq = (HttpServletRequest) request;
+//		HttpSession session = httpReq.getSession();
+//		
+//		
+//		
 //		int id = Integer.parseInt(id_SA);
 //		Map<String, String> errors = new HashMap<String, String>();
 //		m.addAttribute("errors", errors);
@@ -196,6 +288,6 @@ public class ExtraController {
 //		}
 //		
 //		m.addAttribute("name","donate to streetartist!!");
-//		return IdentityFilter.loginID+"_11_SA/NormalUser/Success";
+//		return "_11_SA/NormalUser/Success";
 //	}
 }

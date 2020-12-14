@@ -20,7 +20,6 @@ import com.google.gson.Gson;
 
 import tw.group4._14_.back.Alerts;
 import tw.group4._14_.back.dao.AlertsService;
-import tw.group4._14_.front.model.OrderListBeamAP;
 import tw.group4._35_.login.model.WebsiteMember;
 import tw.group4.util.Hibernate;
 
@@ -68,9 +67,28 @@ public class AlertsController {
 		Long sumTotal = altService.sumTotal();
 
 		String sumString = String.valueOf(sumTotal);
+		
+		if ("null".equals(sumString)) {
+			sumString = "0";
+		}
+
 
 		return sumString;
 	}
+	
+	// 計算洋行營收 (這東西跟 alerts 沒有關係不用管他)
+	@Hibernate
+	@RequestMapping(path = "/14/actionSum.ctrl", produces = "application/text; charset=utf-8")
+	@ResponseBody
+	public String actionSum() {
+
+		Long sumTotal = altService.sumTotal();
+
+		String sumString = String.valueOf(sumTotal);
+
+		return sumString;
+	}
+	
 
 	// 計算總未讀 alerts 數量
 	@Hibernate
@@ -80,6 +98,10 @@ public class AlertsController {
 		Long sumAlertsUnRead = altService.sumAlertsUnRead();
 
 		String sumAlertsUnReadString = String.valueOf(sumAlertsUnRead);
+		
+		if (sumAlertsUnReadString == "null") {
+			sumAlertsUnReadString = "0";
+		}
 
 		return sumAlertsUnReadString;
 	}
@@ -127,9 +149,9 @@ public class AlertsController {
 			// 由於是退換貨，此處直接跳轉至後台管理商品頁面的該項訂單
 			return "redirect:/14/MbOrderListSelect.ctrl?orderListID=" + issueId;
 
-		} else if ("shopAP".equals(issue)) {
+		} else if ("得藝良票退票".equals(issue)) {
 
-			return "redirect:/14/MbOrderListSelect.ctrl?orderListID=" + issueId;
+			return "redirect:/04/Cms/SearchOneOrder.ctrl?orderid="+issueId;
 		}
 
 		return "14/14_NewIndex";
@@ -171,32 +193,5 @@ public class AlertsController {
 		return "14/14_NewIndex";
 	}
 
-	// 計算各入口點擊次數
-	@Hibernate
-	@RequestMapping(path = "/14/barChart", produces = "application/text; charset=utf-8")
-	@ResponseBody
-	public String barChart() {
-		
-		ArrayList<Integer> arrayList = new ArrayList<Integer>();
-		int action = 10;
-		int shop = 5;
-		int restaurant = 18;
-		int map = 8;
-		int course = 13;
-		int artist = 28;
-		
-		arrayList.add(action);
-		arrayList.add(shop);
-		arrayList.add(restaurant);
-		arrayList.add(map);
-		arrayList.add(course);
-		arrayList.add(artist);
-		
-		
-		Gson gson = new Gson();
-		String json = gson.toJson(arrayList);
-
-		return json;
-	}
-
+	
 }

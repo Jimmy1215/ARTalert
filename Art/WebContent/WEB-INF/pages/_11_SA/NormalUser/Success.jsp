@@ -26,7 +26,7 @@
 	</div>
 </section>
 <!-- 黑底終點 -->
-<h1 align="center" style="color:aqua;">Success to ${name} !!</h1>
+<h1 align="center" style="color:red;">Success to ${name} !!</h1>
 <div align="center">
 	<span>
 		<input type="button" onclick="location.href='<c:url value="/userStreetArtistPage.ctrl"/>'" value="回總覽">

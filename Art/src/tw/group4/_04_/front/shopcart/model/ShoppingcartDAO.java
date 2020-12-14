@@ -46,11 +46,11 @@ public class ShoppingcartDAO {
 
 	// 訂單編號生成
 	public String getOrderIdByTime() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		String newDate = sdf.format(new Date());
 		String result = "";
 		Random random = new Random();
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 2; i++) {
 			result += random.nextInt(10);
 		}
 		return newDate + result;

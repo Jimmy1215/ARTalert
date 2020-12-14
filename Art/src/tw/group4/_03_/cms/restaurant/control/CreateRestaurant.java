@@ -22,7 +22,7 @@ import tw.group4.util.Hibernate;
 public class CreateRestaurant {
 
 	@Autowired
-	private RestaurantService rs;
+	public RestaurantService rs;
 	
 	@Hibernate
 	@RequestMapping(path = "/03/cms/restaurant/createRestaurantConfirm.ctrl", method = RequestMethod.POST)
@@ -49,7 +49,7 @@ public class CreateRestaurant {
 		return "03/cms_restaurant/create_confirm";
 	}
 	
-	@Hibernate
+	@Hibernate            
 	@RequestMapping(path = "/03/cms/restaurant/createRestaurant.ctrl", method = RequestMethod.POST)
 	public String createRestaurant(@RequestParam(name = "year") String year, @RequestParam(name = "month") String month,
 			HttpServletRequest request, Model m) {

@@ -30,6 +30,17 @@ private CourseBeanDAO cDAO;
 		return cDAO.select(coId);
 	}
 	
+	
+	public Course selectB(String coId) {
+		Course course = cDAO.selectB(coId);
+		byte[] byt = course.getCoAct_Image();
+
+		String encodedString = Base64.encodeBase64String(byt);
+		course.setCoAct_ImageStr(encodedString);
+		return course;
+	}
+	
+	
 	public List<Course> selectAll() {
 		
 		List<Course> list = cDAO.selectAll();
@@ -52,5 +63,15 @@ private CourseBeanDAO cDAO;
 	
 	public boolean delete(String coId) {
 		return cDAO.delete(coId);
+	}
+	
+	
+	public List<Course> searchByWord(String searchWord){
+		return cDAO.searchByWord(searchWord);
+	}
+	
+	
+	public List<Course> searchByType(String searchType){
+		return cDAO.searchByType(searchType);
 	}
 }

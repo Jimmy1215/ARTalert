@@ -95,10 +95,13 @@ form {
 		<form name="order" action="<c:url value='/04/UpdateOrderlist.ctrl'/> " method="get"> 						
 			 <button type="submit" id="change" name="orderid"  value="${requestScope.orderlist.ORDERID}" class="genric-btn success-border radius" >修改訂單</button>
 		</form> 
-		<form name="order" action="<c:url value='/04/DeleteOrderlist.ctrl'/> " method="get"> 						
-			 <button type="button" id="cancel" name="orderid"  value="${requestScope.orderlist.ORDERID}" class="genric-btn success-border radius" onclick="return del()">取消訂單</button>
-		</form> 
-</div>
+<%-- 		<form name="order" action="<c:url value='/04/DeleteOrderlist.ctrl'/> " method="get"> 						 --%>
+<%-- 			 <button type="button" id="cancel" name="orderid"  value="${requestScope.orderlist.ORDERID}" class="genric-btn success-border radius" onclick="return del()">取消訂單</button> --%>
+<!-- 		</form>  -->
+		<form name="order" action="<c:url value='/04/WriteIssueForm'/> "method="get">
+			<button type="submit" name="issueId" value="${requestScope.orderlist.ORDERID}" class="genric-btn success-border radius" onclick="return del()">申請退票</button>
+		</form>
+	</div>
 
 
 	<script src="https://code.jquery.com/jquery-3.5.1.js"
@@ -132,7 +135,7 @@ $(document).ready(
     
 
     function del() {
-		var msg = "是否取消訂單";
+		var msg = "確定申請退票?";
 		if (confirm(msg) == true) {
 			return true;
 		} else {

@@ -6,11 +6,11 @@
 	<div class="form-row" style="text-align: center;">
 		<div class="form-group">
 			<label>課程編號</label> <input type="text" class="form-control"
-				name="coId" value="${coId}">
+				name="coId" value="${co.coId}">
 		</div>
 		<div class="form-group">
 			<label>課程名稱</label> <input type="text" class="form-control"
-				name="coTitle" value="${coTitle}">
+				name="coTitle" value="${co.coTitle}">
 		</div>
 		<div class="form-group">
 			<label>課程類型</label> 
@@ -31,48 +31,48 @@
 		</div>
 		<div class="form-group">
 			<label>上課地址</label> <input type="text" class="form-control"
-				name="coAct_Location" value="${coAct_Location}">
+				name="coAct_Location" value="${co.coAct_Location}">
 		</div>
 		<div class="form-group">
 			<label>場地名稱</label> <input type="text" class="form-control"
-				name="coLocation_Name" value="${coLocation_Name}">
+				name="coLocation_Name" value="${co.coLocation_Name}">
 		</div>
 		<div class="form-group">
 			<label>名額</label> <input type="number" class="form-control"
-				name="coNum" value="${coNum}">
+				name="coNum" value="${co.coNum}">
 		</div>
 		<div class="form-group">
-			<label>課程售價</label> <input type="number" class="form-control"
-				name="coPrice" value="${coPrice}">
+			<label>售價</label> <input type="number" class="form-control"
+				name="coPrice" value="${co.coPrice}">
 		</div>
 		<div class="form-group">
 			<label>開始日期</label> <input type="date" class="form-control"
-				name="coAct_Date" value="${coAct_Date}">
+				name="coAct_Date" value="${co.coAct_Date}">
 		</div>
 		<div class="form-group">
 			<label>開始時間</label> <input type="time" class="form-control"
-				name="coAct_Time" value="${coAct_Time}">
+				name="coAct_Time" value="${co.coAct_Time}">
 		</div>
 		<div class="form-group">
 			<label>結束日期</label> <input type="date" class="form-control"
-				name="coEnd_Date" value="${coEnd_Date}">
+				name="coEnd_Date" value="${co.coEnd_Date}">
 		</div>
 		<div class="form-group">
 			<label>結束時間</label> <input type="time" class="form-control"
-				name="coEnd_Time" value="${coEnd_Time}">
+				name="coEnd_Time" value="${co.coEnd_Time}">
 		</div>
 		<div class="form-group">
 			<label>簡介說明</label> 
-			<textarea id="te" name="coAct_Description" rows="4" cols="50">${coAct_Description}</textarea>
+			<textarea id="te" name="coAct_Description" rows="4" cols="50">${co.coAct_Description}</textarea>
 		</div>
 		<div class="form-group">
 			<label>點擊次數</label> <input type="number" class="form-control"
-				name="coHot" value="${coHot}">
+				name="coHot" value="${co.coHot}">
 		</div>
 		<div class="form-group">
 			<label>課程圖片</label> <input type="file" accept="image/*"
 				onchange="loadFile(event)" class="form-control" name="coAct_Image"
-				value="${coAct_Image}"> <img id="output" />
+				value="${co.coAct_Image}"> <img id="output" />
 			<script>
 				var loadFile = function(event) {
 					var output = document.getElementById('output');

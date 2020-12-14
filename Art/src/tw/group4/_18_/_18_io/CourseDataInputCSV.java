@@ -78,7 +78,7 @@ public class CourseDataInputCSV {
 					BufferedReader br = new BufferedReader(isr);) {
 				con.setAutoCommit(false);
 				String jdbc_insert_sql = "INSERT INTO Course "
-						+ " (coTitle, coAct_Type,  coAct_Location, coLocation_Name, coNum, coPrice, coAct_Date, coAct_Time, coEnd_Date, coEnd_Time, coAct_Description, coHot, coAct_Image) "
+						+ " (coTitle, coAct_Type,  coAct_Location, coLocation_Name, coPrice, coNum, coAct_Date, coAct_Time, coEnd_Date, coEnd_Time, coAct_Description, coHot, coAct_Image) "
 						+ " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 				try (PreparedStatement pstmt = con.prepareStatement(jdbc_insert_sql);) {
@@ -98,8 +98,8 @@ public class CourseDataInputCSV {
 						String coAct_Type = (token[2]);
 						String coAct_Location = (token[3]);
 						String coLocation_Name = (token[4]);
-						String coNum = (token[5]);
-						String coPrice = (token[6]);
+						String coPrice = (token[5]);
+						String coNum = (token[6]);
 						String coAct_Date = (token[7]);
 						String coAct_Time = (token[8]);
 						String coEnd_Date = (token[9]);
@@ -115,8 +115,8 @@ public class CourseDataInputCSV {
 						pstmt.setString(2, coAct_Type);
 						pstmt.setString(3, coAct_Location);
 						pstmt.setString(4, coLocation_Name);
-						pstmt.setInt(5, Integer.parseInt(coNum));
-						pstmt.setInt(6, Integer.parseInt(coPrice));
+						pstmt.setInt(5, Integer.parseInt(coPrice));
+						pstmt.setInt(6, Integer.parseInt(coNum));
 						pstmt.setString(7, coAct_Date);
 						pstmt.setString(8, coAct_Time);
 						pstmt.setString(9, coEnd_Date);
@@ -134,9 +134,9 @@ public class CourseDataInputCSV {
 						pstmt.clearBatch();
 						
 
-						System.out.println(coId + " " + coTitle + " " + coAct_Type + " " + coAct_Location + " " + coLocation_Name + " "
-								+ coNum + " " + coPrice + " " + coAct_Date + " " + coAct_Time + " " + coEnd_Date + " " + coEnd_Time + " " + coHot + " " + coAct_Description + " " + coNum + " ");
-						System.out.println("-----");
+//						System.out.println(coId + " " + coTitle + " " + coAct_Type + " " + coAct_Location + " " + coLocation_Name + " "
+//								+ coPrice + " " + coNum + " " + coAct_Date + " " + coAct_Time + " " + coEnd_Date + " " + coEnd_Time + " " + coHot + " " + coAct_Description + " " + coNum + " ");
+//						System.out.println("-----");
 					}
 
 					System.out.println("--------------------------------");

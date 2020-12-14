@@ -1,12 +1,15 @@
 package tw.group4._18_.seller.model;
 
 import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+
+
 
 @Repository("CourseBeanDAO")
 public class CourseBeanDAO {
@@ -35,6 +38,15 @@ public class CourseBeanDAO {
 		Session session = sessionFactory.getCurrentSession();
 		return session.get(Course.class, coId);
 	}
+	
+	
+	public Course selectB(String coId) {
+		Session session = sessionFactory.getCurrentSession();
+		Query<Course> query = session.createQuery("From Course where coId="+coId, Course.class);
+		Course course = query.uniqueResult();
+		return course;
+	}
+	
 
 	public List<Course> selectAll() {
 		Session session = sessionFactory.getCurrentSession();
@@ -97,5 +109,26 @@ public class CourseBeanDAO {
 		}
 		return false;
 	}
+	
+	
+	//https://vimsky.com/zh-tw/examples/detail/java-method-org.hibernate.query.Query.setParameter.html
+		public List<Course> searchByWord(String searchWord){
+			System.err.println(searchWord);
+			Session session = sessionFactory.getCurrentSession();
+			Query<Course> querysbw = session.createQuery("From Course where coTitle LIKE :searchWord ", Course.class);
+			querysbw.setParameter("searchWord", "%"+searchWord+"%");
+			List<Course> list = querysbw.list();
+			return list;
+		}
+		
+		
+		public List<Course> searchByType(String searchType){
+			System.err.println(searchType);
+			Session session = sessionFactory.getCurrentSession();
+			Query<Course> querysbt = session.createQuery("From Course where coAct_Type= :searchType");
+			querysbt.setParameter("searchType", ""+searchType+"");
+			List<Course> list = querysbt.list();
+			return list;
+		}
 
 }

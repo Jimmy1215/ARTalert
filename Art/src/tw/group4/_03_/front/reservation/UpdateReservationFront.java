@@ -19,16 +19,17 @@ import tw.group4.util.Hibernate;
 public class UpdateReservationFront {
 
 	@Autowired
-	private RestaurantService rs;
-	
+	public RestaurantService rs;
+
 	@Autowired
-	private ShopReservationService srs;
-	
-	@Hibernate
-	@RequestMapping(path = "/03/front/reservation/updateReservationByNo.ctrl", method = RequestMethod.POST)
-	private String updateReservationByNo(@RequestParam(name = "reservationNo") String reservationNo, Model m) {
-		
+	public ShopReservationService srs;
+
+	@Hibernate				
+	@RequestMapping(path = "/03/front/reservation/updateReservationAmount.ctrl", method = RequestMethod.POST)
+	public String updateReservationAmount(@RequestParam(name = "reservationNo") String reservationNo, Model m) {
+
 		try {
+			// 以訂位號獲得訂位資訊
 			int no = Integer.parseInt(reservationNo);
 			List<ShopReservationBean> reservationList = srs.selectByNo(no);
 			ShopReservationBean reservation = reservationList.get(0);
@@ -36,86 +37,86 @@ public class UpdateReservationFront {
 			// 獲得該時段的剩餘座位數
 			List<RestaurantBean> restaurantList = rs.selectByDateTime(reservation.getDateTime());
 			RestaurantBean restaurant = restaurantList.get(0);
-			
-			if(reservation.getTime() == "09:00") {
+
+			if (reservation.getTime().equals("09:00")) {
 				String moment = "上午9點";
 				m.addAttribute("moment", moment);
 				int remainingNum = restaurant.getH09();
 				m.addAttribute("remainingNum", remainingNum);
-				
-			}else if (reservation.getTime() == "10:00") {
+
+			} else if (reservation.getTime().equals("10:00")) {
 				String moment = "上午10點";
 				m.addAttribute("moment", moment);
 				int remainingNum = restaurant.getH10();
 				m.addAttribute("remainingNum", remainingNum);
-				
-			}else if (reservation.getTime() == "11:00") {
+
+			} else if (reservation.getTime().equals("11:00")) {
 				String moment = "上午11點";
 				m.addAttribute("moment", moment);
 				int remainingNum = restaurant.getH11();
 				m.addAttribute("remainingNum", remainingNum);
-				
-			}else if (reservation.getTime() == "12:00") {
+
+			} else if (reservation.getTime().equals("12:00")) {
 				String moment = "中午12點";
 				m.addAttribute("moment", moment);
 				int remainingNum = restaurant.getH12();
 				m.addAttribute("remainingNum", remainingNum);
-				
-			}else if (reservation.getTime() == "13:00") {
+
+			} else if (reservation.getTime().equals("13:00")) {
 				String moment = "下午1點";
 				m.addAttribute("moment", moment);
 				int remainingNum = restaurant.getH13();
 				m.addAttribute("remainingNum", remainingNum);
-				
-			}else if (reservation.getTime() == "14:00") {
+
+			} else if (reservation.getTime().equals("14:00")) {
 				String moment = "下午2點";
 				m.addAttribute("moment", moment);
 				int remainingNum = restaurant.getH14();
 				m.addAttribute("remainingNum", remainingNum);
 
-			}else if (reservation.getTime() == "15:00") {
+			} else if (reservation.getTime().equals("15:00")) {
 				String moment = "下午3點";
 				m.addAttribute("moment", moment);
 				int remainingNum = restaurant.getH10();
 				m.addAttribute("remainingNum", remainingNum);
-				
-			}else if (reservation.getTime() == "16:00") {
+
+			} else if (reservation.getTime().equals("16:00")) {
 				String moment = "下午4點";
 				m.addAttribute("moment", moment);
 				int remainingNum = restaurant.getH10();
 				m.addAttribute("remainingNum", remainingNum);
-				
-			}else if (reservation.getTime() == "17:00") {
+
+			} else if (reservation.getTime().equals("17:00")) {
 				String moment = "下午5點";
 				m.addAttribute("moment", moment);
 				int remainingNum = restaurant.getH10();
 				m.addAttribute("remainingNum", remainingNum);
-				
-			}else if (reservation.getTime() == "18:00") {
+
+			} else if (reservation.getTime().equals("18:00")) {
 				String moment = "晚上6點";
 				m.addAttribute("moment", moment);
 				int remainingNum = restaurant.getH10();
 				m.addAttribute("remainingNum", remainingNum);
-				
-			}else if (reservation.getTime() == "19:00") {
+
+			} else if (reservation.getTime().equals("19:00")) {
 				String moment = "晚上7點";
 				m.addAttribute("moment", moment);
 				int remainingNum = restaurant.getH10();
 				m.addAttribute("remainingNum", remainingNum);
-				
-			}else if (reservation.getTime() == "20:00") {
+
+			} else if (reservation.getTime().equals("20:00")) {
 				String moment = "晚上8點";
 				m.addAttribute("moment", moment);
 				int remainingNum = restaurant.getH10();
 				m.addAttribute("remainingNum", remainingNum);
-				
-			}else {
+
+			} else {
 				String moment = "晚上9點";
 				m.addAttribute("moment", moment);
 				int remainingNum = restaurant.getH10();
 				m.addAttribute("remainingNum", remainingNum);
 			}
-			
+
 			m.addAttribute("reservation", reservation);
 			m.addAttribute("restaurant", restaurant);
 		} catch (Exception e) {
@@ -125,75 +126,251 @@ public class UpdateReservationFront {
 		return "03/front_reservation/update_choose_number";
 	}
 
-	
-	
 	@Hibernate
-	@RequestMapping(path = "/03/front/reservation/updateReservation.ctrl", method = RequestMethod.POST)
-	private String updateReservation( 
-			@RequestParam(name = "reservationNo") String reservationNo,
-			@RequestParam(name = "memberId") String memberId, 
+	@RequestMapping(path = "/03/front/reservation/updateAmountExecute.ctrl", method = RequestMethod.POST)
+	public String updateAmountExecute( 
+			@RequestParam(name = "reservationNo") int reservationNo,
+			@RequestParam(name = "memberId") int memberId, 
 			@RequestParam(name = "memberName") String memberName,
-			@RequestParam(name = "shopId") String shopId, 
-			@RequestParam(name = "shopName") String shopName,
-
 			@RequestParam(name = "customerName") String customerName,
 			@RequestParam(name = "customerPhone") String customerPhone,
-			@RequestParam(name = "adultsNum") String adultsNum, 
-			@RequestParam(name = "childrenNum") String childrenNum,
-			@RequestParam(name = "amount") String amount,
-
 			
+			@RequestParam(name = "adultsNum") int adultsNum, 
+			@RequestParam(name = "childrenNum") int childrenNum,
+			@RequestParam(name = "amount") int amount,
 			@RequestParam(name = "dateTime") String dateTime, 
-			@RequestParam(name = "startTime") String startTime, 
-			@RequestParam(name = "endTime") String endTime,
+			@RequestParam(name = "time") String time, 
+			
+			@RequestParam(name = "payment") int payment,
 			@RequestParam(name = "note") String note,
+			@RequestParam(name = "gender") int gender,
+			@RequestParam(name = "email") String email,
+			@RequestParam(name = "purpose") int purpose,
+			
+			@RequestParam(name = "newAdultsNum") int newAdultsNum,
+			@RequestParam(name = "newChildrenNum") int newChildrenNum,
 			Model m) {
 		try {
-			int intReservationNo = Integer.parseInt(reservationNo);
-			int intMemberId = Integer.parseInt(memberId);
-			int intShopId = Integer.parseInt(shopId);
-			int intAdultsNum = Integer.parseInt(adultsNum);
-			int intChildrenNum = Integer.parseInt(childrenNum);
-			int intAmount = Integer.parseInt(amount);
 
-			// 執行更新
-//			srs.update(intReservationNo, intMemberId, memberName, intShopId, shopName, 
-//					customerName, customerPhone, intAdultsNum, intChildrenNum, intAmount, 
-//					dateTime, startTime, endTime, note);
+			// 更新用餐人數資料
+			srs.update(reservationNo, memberId, memberName, customerName, customerPhone, 
+					newAdultsNum, newChildrenNum, amount, dateTime, time, 
+					payment, note, gender, email, purpose);
 
-			String reservationUpdateMsg = "商店資料修改成功";
+			// 更新訂位時刻表的剩餘座位數
+			List<RestaurantBean> restaurantList = rs.selectByDateTime(dateTime);
+			RestaurantBean restaurant = restaurantList.get(0);
+			
+			if(time == "09:00") {
+				// 剩餘座位數，先加上原始訂位人數，再減去新訂位人數
+				int num = (restaurant.getH09() + amount) - (newAdultsNum + newChildrenNum);
+				
+				rs.update(restaurant.getRestaurantNo(), restaurant.getDateTime(), restaurant.getYear(), 
+						restaurant.getMonth(), restaurant.getDay(), num, 
+						restaurant.getH10(), restaurant.getH11(), restaurant.getH12(), 
+						restaurant.getH13(), restaurant.getH14(), restaurant.getH15(), 
+						restaurant.getH16(), restaurant.getH17(), restaurant.getH18(), 
+						restaurant.getH19(), restaurant.getH20(), restaurant.getH21(), 
+						restaurant.getMaximum(), restaurant.getOpen());
+				
+			}else if (time == "10:00") {
+				int num = (restaurant.getH10() + amount) - (newAdultsNum + newChildrenNum);
+
+				rs.update(restaurant.getRestaurantNo(), restaurant.getDateTime(), restaurant.getYear(), 
+						restaurant.getMonth(), restaurant.getDay(), restaurant.getH09(), 
+						num, restaurant.getH11(), restaurant.getH12(), 
+						restaurant.getH13(), restaurant.getH14(), restaurant.getH15(), 
+						restaurant.getH16(), restaurant.getH17(), restaurant.getH18(), 
+						restaurant.getH19(), restaurant.getH20(), restaurant.getH21(), 
+						restaurant.getMaximum(), restaurant.getOpen());
+				
+			}else if (time == "11:00") {
+				int num = (restaurant.getH11() + amount) - (newAdultsNum + newChildrenNum);
+				
+				rs.update(restaurant.getRestaurantNo(), restaurant.getDateTime(), restaurant.getYear(), 
+						restaurant.getMonth(), restaurant.getDay(), restaurant.getH09(), 
+						restaurant.getH10(), num, restaurant.getH12(), 
+						restaurant.getH13(), restaurant.getH14(), restaurant.getH15(), 
+						restaurant.getH16(), restaurant.getH17(), restaurant.getH18(), 
+						restaurant.getH19(), restaurant.getH20(), restaurant.getH21(), 
+						restaurant.getMaximum(), restaurant.getOpen());
+				
+			}else if (time == "12:00") {
+				int num = (restaurant.getH12() + amount) - (newAdultsNum + newChildrenNum);
+				
+				rs.update(restaurant.getRestaurantNo(), restaurant.getDateTime(), restaurant.getYear(), 
+						restaurant.getMonth(), restaurant.getDay(), restaurant.getH09(), 
+						restaurant.getH10(), restaurant.getH11(), num, 
+						restaurant.getH13(), restaurant.getH14(), restaurant.getH15(), 
+						restaurant.getH16(), restaurant.getH17(), restaurant.getH18(), 
+						restaurant.getH19(), restaurant.getH20(), restaurant.getH21(), 
+						restaurant.getMaximum(), restaurant.getOpen());
+				
+			}else if (time == "13:00") {
+				int num = (restaurant.getH13() + amount) - (newAdultsNum + newChildrenNum);
+				
+				rs.update(restaurant.getRestaurantNo(), restaurant.getDateTime(), restaurant.getYear(), 
+						restaurant.getMonth(), restaurant.getDay(), restaurant.getH09(), 
+						restaurant.getH10(), restaurant.getH11(), restaurant.getH12(), 
+						num, restaurant.getH14(), restaurant.getH15(), 
+						restaurant.getH16(), restaurant.getH17(), restaurant.getH18(), 
+						restaurant.getH19(), restaurant.getH20(), restaurant.getH21(), 
+						restaurant.getMaximum(), restaurant.getOpen());
+				
+			}else if (time == "14:00") {
+				int num = (restaurant.getH14() + amount) - (newAdultsNum + newChildrenNum);
+				
+				rs.update(restaurant.getRestaurantNo(), restaurant.getDateTime(), restaurant.getYear(), 
+						restaurant.getMonth(), restaurant.getDay(), restaurant.getH09(), 
+						restaurant.getH10(), restaurant.getH11(), restaurant.getH12(), 
+						restaurant.getH13(), num, restaurant.getH15(), 
+						restaurant.getH16(), restaurant.getH17(), restaurant.getH18(), 
+						restaurant.getH19(), restaurant.getH20(), restaurant.getH21(), 
+						restaurant.getMaximum(), restaurant.getOpen());
+				
+			}else if (time == "15:00") {
+				int num = (restaurant.getH15() + amount) - (newAdultsNum + newChildrenNum);
+				
+				rs.update(restaurant.getRestaurantNo(), restaurant.getDateTime(), restaurant.getYear(), 
+						restaurant.getMonth(), restaurant.getDay(), restaurant.getH09(), 
+						restaurant.getH10(), restaurant.getH11(), restaurant.getH12(), 
+						restaurant.getH13(), restaurant.getH14(), num, 
+						restaurant.getH16(), restaurant.getH17(), restaurant.getH18(), 
+						restaurant.getH19(), restaurant.getH20(), restaurant.getH21(), 
+						restaurant.getMaximum(), restaurant.getOpen());
+				
+			}else if (time == "16:00") {
+				int num = (restaurant.getH16() + amount) - (newAdultsNum + newChildrenNum);
+				
+				rs.update(restaurant.getRestaurantNo(), restaurant.getDateTime(), restaurant.getYear(), 
+						restaurant.getMonth(), restaurant.getDay(), restaurant.getH09(), 
+						restaurant.getH10(), restaurant.getH11(), restaurant.getH12(), 
+						restaurant.getH13(), restaurant.getH14(), restaurant.getH15(), 
+						num, restaurant.getH17(), restaurant.getH18(), 
+						restaurant.getH19(), restaurant.getH20(), restaurant.getH21(), 
+						restaurant.getMaximum(), restaurant.getOpen());
+				
+			}else if (time == "17:00") {
+				int num = (restaurant.getH17() + amount) - (newAdultsNum + newChildrenNum);
+				
+				rs.update(restaurant.getRestaurantNo(), restaurant.getDateTime(), restaurant.getYear(), 
+						restaurant.getMonth(), restaurant.getDay(), restaurant.getH09(), 
+						restaurant.getH10(), restaurant.getH11(), restaurant.getH12(), 
+						restaurant.getH13(), restaurant.getH14(), restaurant.getH15(), 
+						restaurant.getH16(), num, restaurant.getH18(), 
+						restaurant.getH19(), restaurant.getH20(), restaurant.getH21(), 
+						restaurant.getMaximum(), restaurant.getOpen());
+				
+			}else if (time == "18:00") {
+				int num = (restaurant.getH18() + amount) - (newAdultsNum + newChildrenNum);
+				
+				rs.update(restaurant.getRestaurantNo(), restaurant.getDateTime(), restaurant.getYear(), 
+						restaurant.getMonth(), restaurant.getDay(), restaurant.getH09(), 
+						restaurant.getH10(), restaurant.getH11(), restaurant.getH12(), 
+						restaurant.getH13(), restaurant.getH14(), restaurant.getH15(), 
+						restaurant.getH16(), restaurant.getH17(), num, 
+						restaurant.getH19(), restaurant.getH20(), restaurant.getH21(), 
+						restaurant.getMaximum(), restaurant.getOpen());
+				
+			}else if (time == "19:00") {
+				int num = (restaurant.getH19() + amount) - (newAdultsNum + newChildrenNum);
+				
+				rs.update(restaurant.getRestaurantNo(), restaurant.getDateTime(), restaurant.getYear(), 
+						restaurant.getMonth(), restaurant.getDay(), restaurant.getH09(), 
+						restaurant.getH10(), restaurant.getH11(), restaurant.getH12(), 
+						restaurant.getH13(), restaurant.getH14(), restaurant.getH15(), 
+						restaurant.getH16(), restaurant.getH17(), restaurant.getH18(), 
+						num, restaurant.getH20(), restaurant.getH21(), 
+						restaurant.getMaximum(), restaurant.getOpen());
+				
+			}else if (time == "20:00") {
+				int num = (restaurant.getH20() + amount) - (newAdultsNum + newChildrenNum);
+				
+				rs.update(restaurant.getRestaurantNo(), restaurant.getDateTime(), restaurant.getYear(), 
+						restaurant.getMonth(), restaurant.getDay(), restaurant.getH09(), 
+						restaurant.getH10(), restaurant.getH11(), restaurant.getH12(), 
+						restaurant.getH13(), restaurant.getH14(), restaurant.getH15(), 
+						restaurant.getH16(), restaurant.getH17(), restaurant.getH18(), 
+						restaurant.getH19(), num, restaurant.getH21(), 
+						restaurant.getMaximum(), restaurant.getOpen());
+			}else {
+				int num = (restaurant.getH21() + amount) - (newAdultsNum + newChildrenNum);
+				
+				rs.update(restaurant.getRestaurantNo(), restaurant.getDateTime(), restaurant.getYear(), 
+						restaurant.getMonth(), restaurant.getDay(), restaurant.getH09(), 
+						restaurant.getH10(), restaurant.getH11(), restaurant.getH12(), 
+						restaurant.getH13(), restaurant.getH14(), restaurant.getH15(), 
+						restaurant.getH16(), restaurant.getH17(), restaurant.getH18(), 
+						restaurant.getH19(), restaurant.getH20(), num, 
+						restaurant.getMaximum(), restaurant.getOpen());
+				
+			}
+			
+			String reservationUpdateMsg = "用餐人數已修改";
 			m.addAttribute("reservationUpdateMsg", reservationUpdateMsg);
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-			String reservationUpdateMsg = "商店預約修改失敗，請重新輸入";
-			m.addAttribute("reservationUpdateMsg", reservationUpdateMsg); // 回傳錯誤訊息
+			String reservationErrorMsg = "用餐人數修改失敗，請重試";
+			m.addAttribute("reservationErrorMsg", reservationErrorMsg); // 回傳錯誤訊息
+		}
+		return "03/front_reservation/update_return";
+	}
+	
+	@Hibernate			 
+	@RequestMapping(path = "/03/front/reservation/updateReservationInfo.ctrl", method = RequestMethod.POST)
+	public String updateReservationInfo(
+			@RequestParam(name = "reservationNo") String reservationNo, 
+			Model m) {
+		try {
+			// 以訂位號獲得訂位資訊
+			int no = Integer.parseInt(reservationNo);
+			List<ShopReservationBean> reservationList = srs.selectByNo(no);
+			ShopReservationBean reservation = reservationList.get(0);
+			
+			m.addAttribute(reservation);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("修改訂位資訊出錯");
+		}
+		return "03/front_reservation/update_info";
+	}
+	
+	@Hibernate
+	@RequestMapping(path = "/03/front/reservation/updateInfoExecute.ctrl", method = RequestMethod.POST)
+	public String updateInfoExecute(
+			@RequestParam(name = "reservationNo") String reservationNo,
+			
+			@RequestParam(name = "customerName") String customerName,
+			@RequestParam(name = "customerPhone") String customerPhone,
+			@RequestParam(name = "note") String note, 
+			@RequestParam(name = "gender") int gender, 
+			@RequestParam(name = "email") String email, 
+			@RequestParam(name = "purpose") int purpose,
+			Model m) {
+		try {
+			// 以訂位號獲得訂位資訊
+			int no = Integer.parseInt(reservationNo);
+			List<ShopReservationBean> reservationList = srs.selectByNo(no);
+			ShopReservationBean reservation = reservationList.get(0);
+			
+			// 更新聯絡資訊
+			srs.update(reservation.getReservationNo(), reservation.getMemberId(), reservation.getMemberName(), 
+					customerName, customerPhone, reservation.getAdultsNum(), 
+					reservation.getChildrenNum(), reservation.getAmount(), reservation.getDateTime(), 
+					reservation.getTime(), reservation.getPayment(), note, 
+					gender, email, purpose);
+			
+			String reservationUpdateMsg = "聯絡資訊已修改";
+			m.addAttribute("reservationUpdateMsg", reservationUpdateMsg);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			String reservationErrorMsg = "聯絡資訊修改失敗，請重試";
+			m.addAttribute("reservationErrorMsg", reservationErrorMsg); // 回傳錯誤訊息
 		}
 		return "03/front_reservation/update_return";
 	}
 
-//	@RequestMapping(path = "/03/csm/reservation/updateReservationByMemberName.ctrl", method = RequestMethod.POST)
-//	private String updateReservationByMemberName(@RequestParam(name = "memberName") String memberName, Model m) {
-//
-//		try {
-//			List<ShopReservationBean> reservationList = srs.selectByMemberName(memberName);
-//			/*
-//			 * 不可使用xxxList != null) xxxList 會含一個空陣列
-//			 */
-//			if (reservationList.size() != 0) {
-//				m.addAttribute("reservationList", reservationList);
-//			} else {
-//				String reservationSerachMsg = "查無此預約資料，請重新查詢";
-//				System.out.println(reservationSerachMsg);
-//				m.addAttribute("reservationSerachMsg", reservationSerachMsg);
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			String reservationSerachMsg = "搜尋出錯，請重新查詢";
-//			m.addAttribute("reservationSerachMsg", reservationSerachMsg); // 回傳錯誤訊息
-//		}
-//		return IdentityFilter.loginID+"03/csm_reservation/update_by_name";
-//	}
-
-	
 }

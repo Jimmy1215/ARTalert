@@ -32,8 +32,20 @@
     <script>
 <!-- 使用var宣告變數，可用範圍以function為界 -->
 function reconfirmOrderCo(){
-	if (confirm("您確定要送出訂單 ? ") ) {
+	if (confirm("您確定要送出 ? ") ) {
 		document.forms[0].action="<c:url value='/18/ProcessOrderCo.ctrl'/>";
+		document.forms[0].method="POST";
+		document.forms[0].submit();
+		return;
+	} else {
+		return;
+	}
+}
+
+function cancelOrderCo() {
+	if (confirm("您確定要取消 ? ") ) {
+		// 接收此資料的Servlet會使用 finalDecision 參數的值
+		document.forms[0].action="<c:url value='/18/deleteCartList.ctrl' />";
 		document.forms[0].method="POST";
 		document.forms[0].submit();
 		return;
@@ -47,16 +59,17 @@ function reconfirmOrderCo(){
 </head>
 
 <body>
-<div class="container-md">
+
+<div class="container" style="font-size: 18px">
 <h3 style="text-align: center;margin-top: 80px;">訂單詳細</h3>
 <FORM >
     <table>
         <tr>
         <!-- name:收到的     id:識別名稱     value:預設填入的值 -->
-            <th><label>收件人：</label>
+            <th><label>購買人姓名：</label>
                 <input type="text" name="Name" id='coName' value="${mb.realName}">
             </th>
-            <th><label>電話：</label>
+            <th><label>聯絡電話：</label>
                 <input type="text" name="Phone" id='coPhone' value="${mb.tel}">
             </th>
         </tr>
@@ -65,7 +78,7 @@ function reconfirmOrderCo(){
             <td colspan='3' >E-mail：<input id='email' name="email" type="text" value="${mb.email}" style="width: 500px;" ></td>
         </tr>    
         <tr>
-            <td colspan='3' >收件地址：<input name="customerAddress" id='coCustomerAddress' type="text" value="${mb.address}" style="width: 500px;" ></td>
+            <td colspan='3' >地址：<input name="customerAddress" id='coCustomerAddress' type="text" value="${mb.address}" style="width: 500px;" ></td>
             
         </tr>
         <tr>
@@ -82,8 +95,7 @@ function reconfirmOrderCo(){
             <th>數量</th>
             <th>小計</th>
         </tr>
-        <c:forEach varStatus="vs" var="orderCo" items="${ccc.cartCo}">
-        <!-- 兩層 ccc.cartCo 在 CourseControllerF #41 #66 -->
+        <c:forEach varStatus="vs" var="orderCo" items="${ccc.cartCo}"> <!-- 兩層 ccc.cartCo 在 CourseControllerF #43 #71 -->
         <tr>
             <td>${orderCo.value.coTitle}</td>
             <td>${orderCo.value.coPrice} 元</td>
@@ -98,20 +110,25 @@ function reconfirmOrderCo(){
     </table>
    <input type="hidden" name="finalDecision"  value="">   
    <div class="container" style="text-align: center;margin-top: 30px;">
-   <input type="button" name="OrderBtn"  value="確定送出" onclick="reconfirmOrderCo();">
-   <input type="button" name="CancelBtn" value="取消訂單" onclick="cancelOrderCo();">
+   <input type="button" name="OrderBtn"  value="送出本訂單" onclick="reconfirmOrderCo();">
+   <input type="button" name="CancelBtn" value="取消本訂單" onclick="cancelOrderCo();">
    </div>
     </FORM>
 	</div>
    
    
    <!-- id需與下方script相同 -->
-   <button id="OneBuyer" >一鍵輸入買家意見</button>
-
+   <div><button id="OrderDetailComment" >一鍵輸入買家意見</button></div>
+   <div><button id="OrderDetailMail" >一鍵輸入測試用信箱</button></div>
+   
 <script>
 <!-- $("最上方的id:識別名稱") -->
-$("#OneBuyer").click(function(){
+$("#OrderDetailComment").click(function(){
 	$("#coComment").val("已報名，感謝。");
+})
+
+$("#OrderDetailMail").click(function(){
+	$("#email").val("aaartgroup4@gmail.com");
 })
 </script>
 </body>

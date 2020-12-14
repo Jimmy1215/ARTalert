@@ -1,7 +1,10 @@
 package tw.group4._18_.buyer.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import oracle.net.aso.m;
 import tw.group4._18_.buyer.DAO.CourseEmailService;
 import tw.group4._18_.buyer.DAO.CourseOrderService;
 import tw.group4._18_.buyer.model.CourseCartCo;
@@ -35,23 +39,26 @@ public class CourseCartController {
 	@Autowired
 	private CourseEmailService coeservice;
 	
+	
+	//將購物項目刪除
 	@Hibernate
 	@RequestMapping(path = "/18/deleteCartList.ctrl") // 網址
-	public String deleteCartList(HttpSession session, @RequestParam(name = "coId") String coId) {
-		if (session == null) {
-			return "redirect:/18/cSelectAllFront.ctrl";
+	public String deleteCartList(HttpSession session) {
+		CourseCartCo ccc2 = (CourseCartCo)session.getAttribute("ccc");
+		if (ccc2 != null) {
+			session.removeAttribute("ccc");
 		}
+		return "redirect:/18/cSelectAllFront.ctrl";
 
-		CourseCartCo ccc2 = (CourseCartCo) session.getAttribute("ccc");
-		ccc2.deleteCart(coId);
-
-		return "18/buyerCo/18_Order"; // jsp
+		
 	}
 	
+	
+	//送出訂單
 	@Hibernate
 	@RequestMapping(path = "/18/ProcessOrderCo.ctrl")
 	public String processOrderCo(HttpSession session, @RequestParam(name = "customerAddress") String customerAddress,
-			@RequestParam(name = "email") String email, @RequestParam(name = "coComment") String coComment) {
+			@RequestParam(name = "email") String email, @RequestParam(name = "coComment") String coComment,Model m) {
 		CourseCartCo ccc3 = (CourseCartCo) session.getAttribute("ccc");
 		if (ccc3 == null) { // 訂單找不到購物則回首頁
 			return "redirect:/18/cSelectAllFront.ctrl";
@@ -61,7 +68,7 @@ public class CourseCartController {
 		if (mb == null) {
 			return "redirect:/35/loginEntry";
 		}
-
+		
 		String memberId = mb.getName();
 //		String customerAddress;
 //		String coComment;
@@ -78,34 +85,45 @@ public class CourseCartController {
 		Map<String, CourseFront> cartCO = ccc3.getCartCo();
 
 		Set<String> keySet = cartCO.keySet();
-
+		
+		List<Map> TFO =new ArrayList();  //給值前往18_ThankForOrder
 		for (String a : keySet) {
 			CourseFront cf = cartCO.get(a);
 
-			CourseOrderItems cOrderItems = new CourseOrderItems(cf.getCoTitle(), cf.getCoNum(), cf.getCoPrice());
+			CourseOrderItems cOrderItems = new CourseOrderItems(cf.getCoTitle(), cf.getCoNum(), cf.getCoPrice(), cf.getCoAct_Date(), cf.getCoAct_Time());
 			cOrderItems.setCourseOrders(cOrders); // OneToMany
 			coItems.add(cOrderItems);
 			System.out.println("cOrders2:" + cOrderItems);
+			
+			Map map = new HashMap();
+			map.put("title", cf.getCoTitle());
+			map.put("date", cf.getCoAct_Date());
+			TFO.add(map);  //給值前往18_ThankForOrder
+			
 		}
+//		for (String title:titleList) {
+//			System.out.println(title);
+//		}
 		cOrders.setCourseOrderItems(coItems);
 		try {
 			coService.persistOrder(cOrders);
 			
 			coeservice.mailtoCo(cOrders);
 			
+			session.removeAttribute("ccc"); //清空session
 			
-			session.removeAttribute("ccc");
+			m.addAttribute("TTFO",TFO); //給值前往18_ThankForOrder
+			
 			return "18/buyerCo/18_ThankForOrder";
-
 		} catch (Exception e) {
-
 			e.printStackTrace();
 			return "redirect:/18/cSelectAllFront.ctrl";
-
 		}
 
 	}
 	
+	
+	// 結帳
 	@Hibernate
 	@RequestMapping(path = "/18/SubmitCartCo.ctrl")
 	public String SubmitCartCo(Model m, HttpSession session) {
@@ -131,17 +149,10 @@ public class CourseCartController {
 		WebsiteMember selectById = mDaoService.selectById(id);
 		m.addAttribute("mb", selectById);
 
-		// 結帳
-		return "18/buyerCo/18_CheckOutCo";
+		return "18/buyerCo/18_CheckOutCo";  //jsp
 	}
 	
-	@Hibernate
-	@RequestMapping(path = "/18/coOrderListOne.ctrl")
-	public String processOrderList(Model m, @RequestParam(name = "orderNoCo")int orderNoCo) {
-		CourseOrders courseOrders = coService.getcoOrderByONo(orderNoCo);
-		m.addAttribute("cooo", courseOrders);
-		
-		return "18/buyerCo/18_OrderListOne";  // jsp
-	}
+	
+	
 
 }

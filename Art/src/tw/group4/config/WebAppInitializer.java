@@ -13,8 +13,6 @@ import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import tw.group4.util.OpenSessionViewFilter;
-
 //地位等同web.xml，第二行設定及連結過去的class取代mvc-servlet.xml
 //這個class包含最基本的設定
 //onStartup()內可設定Server服務啟動就連帶開啟的設定，包含過濾器

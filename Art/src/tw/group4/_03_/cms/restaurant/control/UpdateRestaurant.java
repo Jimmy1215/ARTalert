@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import tw.group4._03_.cms.restaurant.model.RestaurantBean;
 import tw.group4._03_.cms.restaurant.model.RestaurantService;
@@ -20,7 +21,7 @@ import tw.group4.util.Hibernate;
 public class UpdateRestaurant {
 
 	@Autowired
-	private RestaurantService rs;
+	public RestaurantService rs;
 	
 	@Hibernate
 	@RequestMapping(path = "/03/cms/restaurant/updateRestaurantConfirm.ctrl", method = RequestMethod.POST)
@@ -35,7 +36,10 @@ public class UpdateRestaurant {
 				RestaurantBean restaurantBean = rs.selectByNo(intNo);
 				restaurantList.add(restaurantBean);
 			}
+			
 			m.addAttribute("restaurantList", restaurantList);
+			m.addAttribute("year", restaurantList.get(0).getYear());
+			m.addAttribute("month", restaurantList.get(0).getMonth());
 
 		} catch (Exception e) {
 			e.printStackTrace();

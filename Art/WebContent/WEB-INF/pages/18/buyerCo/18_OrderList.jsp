@@ -23,7 +23,7 @@
 </section>
 <!-- End banner Area -->
 
-
+<div class="container" style="font-size: 18px">
 <table class="table table-bordered">
 	<thead>
 		<tr>
@@ -51,3 +51,4 @@
 				href="<c:url value='/18/cSelectAllFront.ctrl' />">回首頁</a></td>
 		</tr>
 </table>
+</div>

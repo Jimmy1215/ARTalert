@@ -1,5 +1,6 @@
 package tw.group4._04_.front.shopcart.controller;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,9 +20,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.google.zxing.NotFoundException;
+import com.google.zxing.WriterException;
+import com.google.zxing.qrcode.encoder.QRCode;
+
 import tw.group4._04_.front.ecpay.PaymentImpl;
 import tw.group4._04_.front.javaMail.controller.SpringMail;
 import tw.group4._04_.front.javaMail.model.EmailServiceImpl;
+import tw.group4._04_.front.qrcode.QRCodeTool;
+import tw.group4._04_.front.qrcode.QRCodeToolTest;
 import tw.group4._04_.front.seat.model.SeatBean;
 import tw.group4._04_.front.seat.model.SeatBeanService;
 import tw.group4._04_.front.shopcart.model.Shoppingcart;
@@ -44,6 +51,8 @@ public class ShoppingCartCtrl {
 	private ShoppingcartService shoppingcartService;
 	@Autowired
 	private EmailServiceImpl emailServiceImpl;
+	@Autowired
+	private QRCodeToolTest qrcodetool;
 	//判定是否登入
 	@Hibernate
 	@RequestMapping(path = "/04/booking.ctrl", method = RequestMethod.GET)
@@ -147,7 +156,7 @@ public class ShoppingCartCtrl {
 	// 儲存訂單
 	@Hibernate
 	@RequestMapping(path = "/04/SaveCart.ctrl", method = RequestMethod.GET)
-	public String SaveCart(Model model, HttpSession session, HttpServletRequest Request) throws MessagingException {
+	public String SaveCart(Model model, HttpSession session, HttpServletRequest Request) throws MessagingException, IOException, NotFoundException, WriterException {
 
 		shoppingcart = (Shoppingcart) session.getAttribute("shoppingcart");
 		String orderlistID = shoppingcartService.getOrderIdByTime();		
@@ -178,8 +187,9 @@ public class ShoppingCartCtrl {
 		shoppingcart.setORDERID(orderlistID);
 		shoppingcartService.insert(shoppingcart);
 		System.out.println("訂單已成立");
-		
+		qrcodetool.QRCode(shoppingcart);
 		//寄訂單詳細mail
+
 		emailServiceImpl.processmailsendHTML(shoppingcart);
 			
 //		model.addAttribute("orderlistID", orderlistID);
@@ -206,7 +216,7 @@ public class ShoppingCartCtrl {
 		session.removeAttribute("shoppingcartnum");
 		//傳至綠界
 		return "04/front_Orderlist/EcPay";
-//		return IdentityFilter.loginID + "04/front_Orderlist/ThxOrder";
+//		return "04/front_Orderlist/ThxOrder";
 	}
 	@Hibernate
 	@RequestMapping(path = "/04/goshoppingcart.ctrl", method = RequestMethod.GET)

@@ -15,7 +15,7 @@ import tw.group4.util.Hibernate;
 public class ReservationDetailsFront {
 
 	@Autowired
-	private ShopReservationService srs;
+	public ShopReservationService srs;
 
 	@Hibernate
 	@RequestMapping(path = "/03/front/reservation/checkReservationDetails.ctrl", method = RequestMethod.POST)

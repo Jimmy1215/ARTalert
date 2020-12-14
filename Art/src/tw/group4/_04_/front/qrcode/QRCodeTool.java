@@ -43,7 +43,7 @@ public class QRCodeTool {
 			String charset, Map hintMap, int qrCodeheight, int qrCodewidth)
 			throws WriterException, IOException {
 		BitMatrix matrix = new MultiFormatWriter().encode(
-				new String(qrCodeData.getBytes(charset), charset),
+				new String(qrCodeData.getBytes(charset),"ISO-8859-1"),
 				BarcodeFormat.QR_CODE, qrCodewidth, qrCodeheight, hintMap);
 		MatrixToImageWriter.writeToFile(matrix, filePath.substring(filePath
 				.lastIndexOf('.') + 1), new File(filePath));
